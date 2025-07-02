@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Condensed:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf" rel="stylesheet" as="font" type="font/otf" crossorigin>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2248%22> ⚙ </text></svg>" />
+
+  <style>
+    @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf') format('opentype');
+    }
+
+    .dyslexia-mode {
+      font-family: 'OpenDyslexic', Arial, sans-serif !important;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+    }
+
+    .dyslexia-mode h1,
+    .dyslexia-mode h2,
+    .dyslexia-mode h3,
+    .dyslexia-mode header h1,
+    .dyslexia-mode section h2,
+    .dyslexia-mode .glide-text-box h3 {
+      font-family: 'OpenDyslexic', Arial, sans-serif !important;
+    }
+
+    body {
+      font-family: 'Roboto Condensed', sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      background-color: white;
+      color: black;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      color: #007a7a;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .setting {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1.5rem 0;
+      font-size: 1.2rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider::before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #007a7a;
+    }
+
+    input:checked + .slider::before {
+      transform: translateX(22px);
+    }
+
+    button {
+      display: block;
+      margin: 3rem auto 0;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      background-color: #007a7a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005f5f;
+    }
+
+    /* Hamburger styles */
+    #hamburger {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 30px;
+      height: 24px;
+      cursor: pointer;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    #hamburger span {
+      display: block;
+      height: 4px;
+      background: black;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    #hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    #hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    #hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    #side-nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 250px;
+      height: 100vh;
+      background: #222;
+      padding-top: 60px;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.6);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      visibility: hidden;
+      z-index: 1050;
+    }
+    #side-nav.open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+    #side-nav a {
+      display: block;
+      padding: 1rem 2rem;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      font-family: 'Roboto Condensed', sans-serif;
+      border-bottom: 1px solid #444;
+      transition: background-color 0.2s ease;
+    }
+    #side-nav a:hover {
+      background-color: #005f5f;
+    }
+
+    @media (max-width: 768px) {
+      #hamburger {
+        width: 26px;
+        height: 20px;
+        top: 12px;
+        left: 12px;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+    }
+
+    .fade-out {
+      animation: fadeOut 0.6s forwards;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Hamburger -->
+<div id="hamburger" aria-label="Menu" role="button" tabindex="0">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- Sidebar -->
+<nav id="side-nav" aria-label="Primary">
+  <a href="index.html">Home</a>
+  <a href="settings.html">Settings</a>
+  <a href="sources.html">Sources</a>
+</nav>
+
+<h1>Settings</h1>
+
+<div class="setting">
+  <span>🌙 Dark Mode</span>
+  <label class="switch">
+    <input type="checkbox" id="darkModeToggle">
+    <span class="slider"></span>
+  </label>
+</div>
+
+<div class="setting">
+  <span>💥 High Contrast</span>
+  <label class="switch">
+    <input type="checkbox" id="highContrastToggle">
+    <span class="slider"></span>
+  </label>
+</div>
+
+
+
+<div class="setting">
+  <span>🧠 Dyslexia-Friendly Font</span>
+  <label class="switch">
+    <input type="checkbox" id="dyslexiaToggle">
+    <span class="slider"></span>
+  </label>
+</div>
+
+
+
+<button id="resetBtn">Reset All Settings</button>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const sideNav = document.getElementById('side-nav');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    sideNav.classList.toggle('open');
+    if (sideNav.classList.contains('open')) {
+      sideNav.style.visibility = 'visible';
+    } else {
+      setTimeout(() => {
+        sideNav.style.visibility = 'hidden';
+      }, 300);
+    }
+  });
+
+  const darkToggle = document.getElementById('darkModeToggle');
+  const contrastToggle = document.getElementById('highContrastToggle');
+  const dyslexiaToggle = document.getElementById('dyslexiaToggle');
+
+  darkToggle.checked = localStorage.getItem('darkMode') === 'true';
+  contrastToggle.checked = localStorage.getItem('highContrast') === 'true';
+  dyslexiaToggle.checked = localStorage.getItem('dyslexiaMode') === 'true';
+
+
+  function updateExclusivity(changed) {
+    if (changed === 'dark' && darkToggle.checked) {
+      contrastToggle.checked = false;
+      localStorage.setItem('highContrast', 'false');
+    }
+    if (changed === 'contrast' && contrastToggle.checked) {
+      darkToggle.checked = false;
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
+
+  darkToggle.addEventListener('change', () => {
+    updateExclusivity('dark');
+    localStorage.setItem('darkMode', darkToggle.checked);
+  });
+
+  contrastToggle.addEventListener('change', () => {
+    updateExclusivity('contrast');
+    localStorage.setItem('highContrast', contrastToggle.checked);
+  });
+
+  dyslexiaToggle.addEventListener('change', () => {
+    localStorage.setItem('dyslexiaMode', dyslexiaToggle.checked);
+  });
+
+
+  const resetBtn = document.getElementById('resetBtn');
+  resetBtn.addEventListener('click', () => {
+    localStorage.removeItem('darkMode');
+    localStorage.removeItem('highContrast');
+    localStorage.removeItem('dyslexiaMode');
+
+    darkToggle.checked = false;
+    contrastToggle.checked = false;
+    dyslexiaToggle.checked = false;
+
+    document.body.classList.add('fade-out');
+    resetBtn.style.animation = 'pulse 0.6s';
+
+    setTimeout(() => {
+      document.body.classList.remove('fade-out');
+      resetBtn.style.animation = '';
+    }, 600);
+  });
+</script>
+
+</body>
+</html>
