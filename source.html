@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Credits</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2248%22>📷</text></svg>" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Condensed:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf" rel="stylesheet" as="font" type="font/otf" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf') format('opentype');
+    }
+  </style>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto Condensed', sans-serif;
+      background-color: white;
+      color: black;
+      transition: background 0.3s, color 0.3s;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.5rem;
+      color: #007a7a;
+    }
+
+    section {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #007a7a;
+      font-family: 'Pacifico', cursive;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 1.2rem;
+      font-size: 1.1rem;
+    }
+
+    a {
+      color: #007a7a;
+      text-decoration: underline;
+    }
+
+    /* Hamburger */
+    #hamburger {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 30px;
+      height: 24px;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    #hamburger span {
+      height: 4px;
+      background: #007a7a;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    #hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    #hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    #hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    #side-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #222;
+      color: white;
+      padding-top: 60px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1050;
+    }
+
+    #side-nav.open {
+      transform: translateX(0);
+    }
+
+    #side-nav a {
+      display: block;
+      padding: 1rem 2rem;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-bottom: 1px solid #444;
+    }
+
+    #side-nav a:hover {
+      background-color: #005f5f;
+    }
+
+    /* Settings support */
+    .dark-mode {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+
+    .dark-mode section {
+      background-color: #2a2a2a;
+    }
+
+    .high-contrast {
+      background-color: #fff !important;
+      color: black !important;
+    }
+
+    .high-contrast section {
+      background: yellow !important;
+      color: black !important;
+    }
+
+    .dyslexia-mode {
+      font-family: 'OpenDyslexic', Arial, sans-serif !important;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+    }
+
+
+    .no-animations * {
+      transition: none !important;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      li {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hamburger -->
+<div id="hamburger" aria-label="Menu" role="button" tabindex="0">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- Side Nav -->
+<nav id="side-nav">
+  <a href="index.html">Home</a>
+  <a href="settings.html">Settings</a>
+  <a href="sources.html">Sources</a>
+</nav>
+
+<header>
+  <h1>Image Sources</h1>
+</header>
+
+<section>
+  <h2>Credits</h2>
+  <ul>
+    <li><strong>Header Image:</strong> <a href="https://images.photowall.com/products/49384/autumn-in-paris.jpg">Photowall - Autumn in Paris</a></li>
+    <li><strong>Glide 1:</strong> <a href="https://media1.thrillophilia.com/filestore/8r5spqnazgna2y75nhkyqv7enate_Arc%20de%20Triomphe.jpg">Thrillophilia - Arc de Triomphe</a></li>
+    <li><strong>Glide 2:</strong> <a href="https://www.toureiffel.paris/sites/default/files/styles/largeur_450px/public/actualite/image_principale/vue_depuisjardins_webbanner_3.jpg?itok=w6PhGXsz">Official Eiffel Tower Website</a></li>
+    <li><strong>Glide 3:</strong> <a href="https://images.saymedia-content.com/.image/t_share/MjAyNTU5ODUzNzQzNTgwMTcy/top-10-things-to-do-in-lyon-france.jpg">SayMedia - Lyon Travel</a></li>
+    <li><strong>Glide 4:</strong> <a href="https://twoinfrance.com/wp-content/uploads/2022/12/versailles-_gardens.webp">TwoInFrance - Gardens of Versailles</a></li>
+  </ul>
+</section>
+
+<script>
+  // Hamburger toggle
+  const hamburger = document.getElementById('hamburger');
+  const sideNav = document.getElementById('side-nav');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    sideNav.classList.toggle('open');
+  });
+
+  // Load settings from localStorage
+  window.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    if (localStorage.getItem('darkMode') === 'true') body.classList.add('dark-mode');
+    if (localStorage.getItem('highContrast') === 'true') body.classList.add('high-contrast');
+    if (localStorage.getItem('disableAnimations') === 'true') body.classList.add('no-animations');
+    if (localStorage.getItem('dyslexiaMode') === 'true') body.classList.add('dyslexia-mode');
+
+
+  });
+</script>
+
+</body>
+</html>
