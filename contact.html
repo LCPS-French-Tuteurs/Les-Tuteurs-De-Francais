@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2248%22>✉️</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Condensed:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf" rel="stylesheet" as="font" type="font/otf" crossorigin>
+
+  <style>
+    @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf') format('opentype');
+    }
+
+    body {
+      font-family: 'Roboto Condensed', sans-serif;
+      background-color: white;
+      color: black;
+      margin: 0;
+      padding: 2rem;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      color: #007a7a;
+      font-size: 2.8rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    section {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #f7f7f7;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2rem;
+      color: #007a7a;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .email-block {
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    button {
+      padding: 0.8rem 2rem;
+      background-color: #007a7a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #005f5f;
+    }
+
+    .note {
+      font-style: italic;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .success-msg {
+      margin-top: 1rem;
+      color: green;
+      font-weight: bold;
+    }
+
+    /* Hamburger styles */
+    #hamburger {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 30px;
+      height: 24px;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    #hamburger span {
+      height: 4px;
+      background: #007a7a;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    #hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    #hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    #hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    #side-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #222;
+      color: white;
+      padding-top: 60px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1050;
+    }
+
+    #side-nav.open {
+      transform: translateX(0);
+    }
+
+    #side-nav a {
+      display: block;
+      padding: 1rem 2rem;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-bottom: 1px solid #444;
+    }
+
+    #side-nav a:hover {
+      background-color: #005f5f;
+    }
+
+    .dark-mode {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+
+    .dyslexia-mode {
+      font-family: 'OpenDyslexic', Arial, sans-serif !important;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+    }
+
+    .high-contrast {
+      background-color: #fff !important;
+      color: black !important;
+    }
+
+    .no-animations * {
+      transition: none !important;
+    }
+    /* Dark mode support */
+    .dark-mode {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+
+    .dark-mode section {
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+    }
+
+    .dark-mode input,
+    .dark-mode select {
+      background-color: #333;
+      color: #fff;
+      border-color: #666;
+    }
+
+    .dark-mode button {
+      background-color: #007a7a;
+      color: white;
+    }
+
+    .dark-mode button:hover {
+      background-color: #005f5f;
+    }
+
+    /* High contrast support */
+    .high-contrast {
+      background-color: black !important;
+      color: #00ff00 !important; /* bright green text */
+      font-weight: bold;
+      text-shadow: none !important;
+    }
+
+    /* Make Pacifico font easier to read by removing shadows and adding stroke */
+    .high-contrast header h1,
+    .high-contrast h2 {
+      color: #00ff00 !important;
+      font-family: 'Roboto Condensed', sans-serif !important; /* ditch Pacifico for readability */
+      text-shadow: none !important;
+      font-weight: 900 !important;
+    }
+
+    /* Sections get dark gray background with bright green text */
+    .high-contrast section {
+      background-color: black !important;
+      color: #00ff00 !important;
+      border: 2px solid #00ff00 !important;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00FF00 !important;
+    }
+
+    /* Inputs and selects: black bg, bright green text */
+    .high-contrast input,
+    .high-contrast select {
+      background-color: black !important;
+      color: #00ff00 !important;
+      border: 2px solid #00ff00 !important;
+      font-weight: bold;
+    }
+
+    /* Buttons with black bg and green text */
+    .high-contrast button {
+      background-color: black !important;
+      color: #00ff00 !important;
+      border: 2px solid #00ff00 !important;
+      font-weight: bold;
+      box-shadow: 0 0 5px #00ff00;
+    }
+
+    .high-contrast button:hover {
+      background-color: #006400 !important; /* dark green hover */
+      color: #aaffaa !important;
+      border-color: #00ff00 !important;
+      box-shadow: 0 0 8px #00ff00;
+    }
+
+    /* Side nav: gray background, white text with green shadow */
+    .high-contrast #side-nav {
+      background-color: #222 !important; /* medium gray */
+      color: white !important;
+      border-left: none !important;
+      box-shadow: none !important;
+    }
+
+    .high-contrast #side-nav a {
+      color: white !important;
+      text-shadow: 1px 1px 2px #008000; /* medium-strong green shadow */
+      font-weight: bold;
+      border-bottom: 1px solid #006400 !important;
+    }
+
+    .high-contrast #side-nav a:hover {
+      background-color: #003300 !important; /* dark green hover */
+    }
+
+    /* Hamburger: green glow */
+    .high-contrast #hamburger span {
+      background: #00ff00 !important;
+      box-shadow: 0 0 8px #00ff00 !important;
+    }
+
+
+  </style>
+</head>
+<body>
+
+<!-- Hamburger -->
+<div id="hamburger" aria-label="Menu" role="button" tabindex="0">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- Side Nav -->
+<nav id="side-nav">
+  <a href="index.html">Home</a>
+  <a href="settings.html">Settings</a>
+  <a href="sources.html">Sources</a>
+  <a href="contact.html">Contact Us</a>
+</nav>
+
+<header>
+  <h1>Contact Us</h1>
+</header>
+
+<section>
+  <h2>Email Us</h2>
+  <div class="email-block">📧 Raushan: <a href="mailto:lcps.fr1@gmail.com">lcps.fr1@gmail.com</a></div>
+  <div class="email-block">📧 Olivia: <a href="mailto:lcps.fr2@gmail.com">lcps.fr2@gmail.com</a></div>
+</section>
+
+<section>
+  <h2>Join Our Mailing List</h2>
+  <form id="mailingListForm">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input required type="text" id="name" name="name" />
+    </div>
+    <div class="form-group">
+      <label for="level">French Level:</label>
+      <select required id="level" name="level">
+        <option value="">--Select--</option>
+        <option value="French 1">French 1</option>
+        <option value="French 2">French 2</option>
+        <option value="French 3">French 3</option>
+        <option value="French 4">French 4</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input required type="email" id="email" name="email" />
+    </div>
+    <button type="submit">Submit</button>
+    <div class="note">Please be logged into your school email to submit the form. THE FORM IS NOT CURRENTLY ACTIVE! IT WILL NOT WORK!</div>
+    <div class="success-msg" id="successMsg" style="display: none;">✅ Submission successful!</div>
+  </form>
+</section>
+
+<section>
+  <h2>Follow Us</h2>
+  <p>📷 <a href="https://www.instagram.com/lestuteursdefrancais/" target="_blank">Instagram</a></p>
+</section>
+
+<section>
+  <h2>Questions?</h2>
+  <p>Email us above or ask our AI agent on the <a href="index.html">home page</a>!</p>
+</section>
+
+<script>
+
+  // Hamburger toggle
+  const hamburger = document.getElementById('hamburger');
+  const sideNav = document.getElementById('side-nav');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    sideNav.classList.toggle('open');
+  });
+
+  // Settings
+  window.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    if (localStorage.getItem('darkMode') === 'true') body.classList.add('dark-mode');
+    if (localStorage.getItem('highContrast') === 'true') body.classList.add('high-contrast');
+    if (localStorage.getItem('disableAnimations') === 'true') body.classList.add('no-animations');
+    if (localStorage.getItem('dyslexiaMode') === 'true') body.classList.add('dyslexia-mode');
+  });
+
+  // Form submission
+  document.getElementById('mailingListForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = {
+      name: document.getElementById('name').value,
+      level: document.getElementById('level').value,
+      email: document.getElementById('email').value
+    };
+
+    fetch("https://script.google.com/a/macros/lcps.org/s/AKfycbyKcjFz76uBy7PWxXyBjdXPIUZ7vCeTicxCXqT0Ya2zwuIy8fA471bGWmQKcb-2Edvu0Q/exec", {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(res => {
+      if (res.ok) {
+        document.getElementById('successMsg').style.display = 'block';
+        this.reset();
+      } else {
+        alert("Something went wrong. Try again or contact us directly.");
+      }
+    })
+    .catch(() => alert("Error sending form."));
+  });
+</script>
+
+</body>
+</html>
