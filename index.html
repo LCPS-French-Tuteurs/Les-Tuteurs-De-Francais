@@ -50,83 +50,165 @@ body, html {
 }
 
 /* DARK MODE */
-.dark-mode body {
-  background-color: white;
-  color: #e0e0e0 !important;
-}
+  .dark-mode body {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+  }
 
-.dark-mode #scroll-down {
-  color: #e0e0e0 !important;
-}
+  .dark-mode html {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+  }
 
-.dark-mode section:not(.glide-section):not(#end-text),
-.dark-mode #thankyou-quote {
-  background-color: #121212 !important;
-  color: #e0e0e0 !important;
-  max-width: 800px;
-  margin: 2rem auto;
-  border-radius: 10px;
-  padding: 1.5rem 2rem;
-  box-sizing: border-box;
-}
+  .dark-mode #scroll-down {
+    color: #e0e0e0 !important;
+  }
 
-.dark-mode html,
-.dark-mode body {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-}
+  .dark-mode section:not(.glide-section):not(#end-text),
+  .dark-mode #thankyou-quote {
+    background-color: #2a2a2a !important;
+    color: #e0e0e0 !important;
+    max-width: 800px;
+    margin: 2rem auto;
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
+  }
 
-.dark-mode section,
-.dark-mode header,
-.dark-mode .glide-text-box {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-}
+  .dark-mode section,
+  .dark-mode header,
+  .dark-mode .glide-text-box {
+    background-color: #2a2a2a !important;
+    color: #e0e0e0 !important;
+  }
 
-.dark-mode .btn {
-  border-color: #00ffff !important;
-  color: #00ffff !important;
-}
+  .dark-mode .btn {
+    border-color: #00ffff !important;
+    color: #00ffff !important;
+  }
 
-.dark-mode .btn:hover {
-  background-color: #00ffff !important;
-  color: black !important;
-}
+  .dark-mode .btn:hover {
+    background-color: #00ffff !important;
+    color: black !important;
+  }
+
 
 /* HIGH CONTRAST */
-.high-contrast {
-  background-color: #ffffff !important;
-  color: black !important;
-}
+  /* HIGH CONTRAST MODE — FIXED & REWRITTEN */
+  .high-contrast html,
+  .high-contrast body {
+    background-color: black !important;
+    color: #00FF00 !important;
+    font-weight: bold;
+  }
 
-.high-contrast #scroll-down {
-  color: black !important;
-}
+  /* Keep header (Pacifico font area) untouched for legibility */
+  .high-contrast header {
+    background-color: transparent !important;
+    color: white !important;
+    text-shadow: none !important;
+  }
 
-.high-contrast html,
-.high-contrast body {
-  background-color: #ffff00 !important;
-  color: black !important;
-}
+  /* SECTIONS get quote-style box */
+  .high-contrast section:not(.glide-section):not(#end-text),
+  .high-contrast #thankyou-quote {
+    background-color: black !important;
+    color: #00FF00 !important;
+    text-shadow: 0 0 4px #00FF00, 0 0 8px #00FF00;
+    border: 2px solid #00FF00 !important;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #00FF00 !important;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
+  }
 
-.high-contrast section,
-.high-contrast header,
-.high-contrast .glide-text-box {
-  background-color: #ffff00 !important;
-  color: black !important;
-}
+  /* Section headers (h2) readable, no Pacifico blurriness */
+  .high-contrast section h2 {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-size: 2rem;
+    color: #00FF00 !important;
+    text-shadow: 0 0 8px #00FF00; 
+  }
 
-.high-contrast .btn {
-  background-color: black !important;
-  color: yellow !important;
-  font-weight: bold;
-  border: 3px dashed black !important;
-}
+  /* Body text, li, p, etc */
+  .high-contrast p,
+  .high-contrast li,
+  .high-contrast #scroll-down {
+    color: #00FF00 !important;
+    text-shadow: 0 0 8px #00FF00; 
+  }
 
-.high-contrast .btn:hover {
-  background-color: yellow !important;
-  color: black !important;
-}
+  /* Buttons */
+  .high-contrast .btn,
+  .high-contrast .glide-text-box .btn {
+    background: transparent !important;
+    border: 3px solid #00FF00 !important;
+    color: #00FF00 !important;
+    font-weight: bold;
+    text-shadow: 0 0 8px #00FF00; 
+  }
+
+  .high-contrast .btn:hover,
+  .high-contrast .glide-text-box .btn:hover {
+    background-color: #00FF00 !important;
+    color: black !important;
+    text-shadow: none !important;
+  }
+
+  /* Glideshow text box */
+  .high-contrast .glide-text-box {
+    background-color: black !important;
+    color: #00FF00 !important;
+    text-shadow: 0 0 8px #00FF00; 
+    border: 2px solid #00FF00;
+  }
+  .high-contrast .glide-text-box h3 {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    color: #00FF00 !important;
+    text-shadow: 0 0 8px #00FF00; 
+  }
+
+  /* Thank you quote */
+  .high-contrast #thankyou-quote {
+    background-color: black !important;
+    color: #00FF00 !important;
+    text-shadow: 0 0 8px #00FF00; 
+    border: 2px solid #00FF00 !important;
+    box-shadow: 0 0 15px #00FF00 !important;
+  }
+
+  /* Side nav and links */
+  .high-contrast #side-nav {
+    background-color: #222 !important;
+    box-shadow: none !important;
+    transform: translateX(-100%) !important;
+    border-right: 2px solid transparent !important; /* fix for thin green line bug */
+  }
+
+  .high-contrast #side-nav.open {
+    transform: translateX(0) !important;
+    border-right: 2px solid #00FF00 !important;
+  }
+
+  .high-contrast #side-nav a {
+    color: white !important;
+    text-shadow: 0 0 4px #00FF00;
+  }
+
+  .high-contrast #side-nav a:hover {
+    background-color: #00FF00 !important;
+    color: black !important;
+    text-shadow: none !important;
+  }
+
+  /* Hamburger icon glow */
+  .high-contrast #hamburger span {
+    background-color: #00FF00 !important;
+    box-shadow: 0 0 6px #00FF00 !important;
+  }
+
 
 /* DISABLE ANIMATIONS */
 .no-animations *:not(.glide-section):not(.glide-section *):not(#thankyou-quote) {
@@ -541,6 +623,7 @@ ul {
   <a href="#">Home</a>
   <a href="settings.html">Settings</a>
   <a href="sources.html">Sources</a>
+  <a href="contact.html">Contact Us</a>
 </nav>
 
 <!-- INFORMATION SECTION -->
@@ -773,13 +856,11 @@ function loadUserSettings() {
     body.classList.add('high-contrast');
   }
 
-  if (localStorage.getItem('disableAnimations') === 'true') {
-    body.classList.add('no-animations');
-  }
-
   if (localStorage.getItem('dyslexiaMode') === 'true') {
     body.classList.add('dyslexia-mode');
+    html.classList.add('dyslexia-mode');
   }
+
 
   // Trigger initial updates after settings load
   setTimeout(function() {
