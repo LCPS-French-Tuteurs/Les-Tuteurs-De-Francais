@@ -9,6 +9,16 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2248%22> ⚙ </text></svg>" />
 
   <style>
+    .dark-mode {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+
+    .high-contrast {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+    }
+
     @font-face {
       font-family: 'OpenDyslexic';
       src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf') format('opentype');
@@ -34,9 +44,57 @@
       padding: 2rem;
       max-width: 600px;
       margin: auto;
-      background-color: white;
-      color: black;
     }
+    body.dark-mode {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+    body.high-contrast {
+      background-color: #000000 !important;   /* pitch black */
+      color: #00FF00 !important;              /* neon green text */
+      text-shadow: 0 0 8px #00FF00;           /* subtle green glow */
+    }
+
+    /* Sidebar in high contrast mode */
+    body.high-contrast #side-nav {
+      background-color: #111111 !important;  /* dark but not total black */
+      box-shadow: 0 0 10px #00FF00;
+    }
+
+    /* Hamburger bars glow */
+    body.high-contrast #hamburger span {
+      background-color: #00FF00 !important;
+      box-shadow: 0 0 6px #00FF00;
+    }
+
+    /* Links glow on hover */
+    body.high-contrast #side-nav a:hover {
+      background-color: #00FF00 !important;
+      color: #000;
+      text-shadow: none;
+    }
+    body.high-contrast h1 {
+      color: #00FF00 !important;         /* neon green for heading */
+      text-shadow: 0 0 8px #00FF00;      /* green glow */
+    }
+
+    body.high-contrast .setting span {
+      color: #00FF00 !important;         /* neon green labels for switches */
+      text-shadow: 0 0 6px #00FF00;
+    }
+
+    body.high-contrast button#resetBtn {
+      background-color: #00FF00 !important;  /* neon green button bg */
+      color: #000 !important;                 /* black text */
+      box-shadow: 0 0 8px #00FF00;
+      border: none;
+    }
+
+    body.high-contrast button#resetBtn:hover {
+      background-color: #00CC00 !important;  /* slightly darker green on hover */
+    }
+
+
 
     h1 {
       font-family: 'Pacifico', cursive;
@@ -217,6 +275,7 @@
   <a href="index.html">Home</a>
   <a href="settings.html">Settings</a>
   <a href="sources.html">Sources</a>
+  <a href="contact.html">Contact Us</a>
 </nav>
 
 <h1>Settings</h1>
@@ -252,6 +311,12 @@
 <button id="resetBtn">Reset All Settings</button>
 
 <script>
+    // Apply saved settings on page load
+    const body = document.body;
+    if (localStorage.getItem('darkMode') === 'true') body.classList.add('dark-mode');
+    if (localStorage.getItem('highContrast') === 'true') body.classList.add('high-contrast');
+    if (localStorage.getItem('dyslexiaMode') === 'true') body.classList.add('dyslexia-mode');
+
   const hamburger = document.getElementById('hamburger');
   const sideNav = document.getElementById('side-nav');
 
@@ -280,25 +345,45 @@
     if (changed === 'dark' && darkToggle.checked) {
       contrastToggle.checked = false;
       localStorage.setItem('highContrast', 'false');
+      body.classList.remove('high-contrast');
     }
     if (changed === 'contrast' && contrastToggle.checked) {
       darkToggle.checked = false;
       localStorage.setItem('darkMode', 'false');
+      body.classList.remove('dark-mode');
     }
   }
 
   darkToggle.addEventListener('change', () => {
     updateExclusivity('dark');
     localStorage.setItem('darkMode', darkToggle.checked);
+
+    if(darkToggle.checked) {
+      body.classList.add('dark-mode');
+    } else {
+      body.classList.remove('dark-mode');
+    }
   });
 
   contrastToggle.addEventListener('change', () => {
     updateExclusivity('contrast');
     localStorage.setItem('highContrast', contrastToggle.checked);
+
+    if (contrastToggle.checked) {
+      body.classList.add('high-contrast');
+    } else {
+      body.classList.remove('high-contrast');
+    }
   });
 
   dyslexiaToggle.addEventListener('change', () => {
     localStorage.setItem('dyslexiaMode', dyslexiaToggle.checked);
+
+    if (dyslexiaToggle.checked) {
+      body.classList.add('dyslexia-mode');
+    } else {
+      body.classList.remove('dyslexia-mode');
+    }
   });
 
 
@@ -311,7 +396,7 @@
     darkToggle.checked = false;
     contrastToggle.checked = false;
     dyslexiaToggle.checked = false;
-
+body.classList.remove('dark-mode', 'high-contrast', 'dyslexia-mode');
     document.body.classList.add('fade-out');
     resetBtn.style.animation = 'pulse 0.6s';
 
