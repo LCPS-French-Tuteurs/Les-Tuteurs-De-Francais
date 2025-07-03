@@ -24,7 +24,7 @@
       font-family: 'Roboto Condensed', sans-serif;
       background-color: white;
       color: black;
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.3s, color 0.3s, text-shadow 0.3s ease;
       padding: 2rem;
     }
 
@@ -145,13 +145,54 @@
     }
 
     .high-contrast {
-      background-color: #fff !important;
-      color: black !important;
+      background-color: #000000 !important; /* pure black background */
+      color: #39FF14 !important; /* neon green text */
+      text-shadow: 0 0 8px #00FF00; 
+    }
+.high-contrast section {
+  background-color: black !important;
+  border: 2px solid #39FF14;
+  box-shadow: 0 0 12px #0fa;
+}
+    .high-contrast a {
+      color: #39FF14 !important;
+      text-shadow: 0 0 8px #00FF00; 
     }
 
-    .high-contrast section {
-      background: yellow !important;
-      color: black !important;
+    .high-contrast h1,
+    .high-contrast h2,
+    .high-contrast h3 {
+      color: #39FF14 !important;
+      text-shadow: 0 0 8px #00FF00; 
+    }
+
+    /* Also change your #hamburger bars to neon green in high contrast */
+    /* Sidebar in high contrast mode */
+    body.high-contrast #side-nav {
+      background-color: #111111 !important;  /* dark but not total black */
+      box-shadow: 0 0 10px #00FF00;
+    }
+    .high-contrast #side-nav a {
+      color: white !important;
+      text-shadow: 
+        0 0 4px #39FF14,
+        0 0 8px #39FF14;
+    }
+
+    /* Hamburger bars glow */
+    body.high-contrast #hamburger span {
+      background-color: #00FF00 !important;
+      box-shadow: 0 0 6px #00FF00;
+    }
+
+    /* Links glow on hover */
+    body.high-contrast #side-nav a:hover {
+      background-color: #00FF00 !important;
+      color: #000;
+      text-shadow: none;
+    }
+    #side-nav:not(.open) {
+      box-shadow: none !important;
     }
 
     .dyslexia-mode {
@@ -198,6 +239,7 @@
   <a href="index.html">Home</a>
   <a href="settings.html">Settings</a>
   <a href="sources.html">Sources</a>
+  <a href="contact.html">Contact Us</a>
 </nav>
 
 <header>
