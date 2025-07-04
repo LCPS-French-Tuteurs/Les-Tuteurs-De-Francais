@@ -223,6 +223,58 @@
         font-size: 1rem;
       }
     }
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease;
+    }
+
+    #loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .french-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    #baguette {
+      width: 80px;
+      height: auto;
+      animation: baguetteSpin 2s linear infinite;
+      display: block;
+      max-width: 100px;
+    }
+
+    @keyframes baguetteSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    #french-tip {
+      font-size: 1.1rem;
+      color: white;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
   </style>
 </head>
 <body>
@@ -241,7 +293,17 @@
   <a href="sources.html">Sources</a>
   <a href="contact.html">Contact Us</a>
 </nav>
+  <div id="loading-screen">
+    <div class="french-loader">
+      <img id="baguette"
+        src="https://images.vexels.com/media/users/3/156533/isolated/preview/5ec787f2bfceab659b30cea66ecff88d-baguette-bread-cartoon-icon.png"
+        alt="Baguette spinning" />
 
+
+      <div id="french-tip"></div>
+    </div>
+
+  </div>
 <header>
   <h1>Image Sources</h1>
 </header>
@@ -278,6 +340,31 @@
 
   });
 </script>
+  <script>
+    // Fade out the loader once everything is loaded
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loading-screen');
+      setTimeout(() => {
+        loader.classList.add('fade-out');
+      }, 3000); // Optional delay for aesthetic
+    });
+    const tips = [
+      "Astuce: Adjectives always have to match the gender and plurality of the noun they describe.",
+      "Astuce: En français, on ne prononce jamais les lettres finales!",
+      "Astuce: 'Y' replaces a thing or a place that used 'à', 'en', 'chez'.",
+      "Astuce: 'En' replaces 'de' + something and could also signify a quantity.",
+      "Astuce: 'Ne...pas' surrounds a verb to negate it.",
+      "Astuce: 'Depuis' = since / for (time); 'Il y a' = ago.",
+      "Astuce: Learn 5 nouveaux mots chaque jour!",
+      "Astuce: Les accents change the meaning of words - café ≠ cafè!"
+    ];
+    let currentTip = 0;
+    const tipElement = document.getElementById('french-tip');
 
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+    if (tipElement) tipElement.textContent = randomTip;
+    // Add loading screen on link clicks
+
+  </script>
 </body>
 </html>
