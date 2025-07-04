@@ -1,888 +1,1142 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tutoring Dashboard</title>
-
-<!-- French-themed favicon -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2248%22>🗼</text></svg>" />
-
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Condensed:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf" rel="stylesheet" as="font" type="font/otf" crossorigin>
-
-<style>
-@font-face {
-  font-family: 'OpenDyslexic';
-  src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf') format('opentype');
-}
-
-.dyslexia-mode {
-  font-family: 'OpenDyslexic', Arial, sans-serif !important;
-  letter-spacing: 0.05em;
-  line-height: 1.6;
-}
-
-.dyslexia-mode h1,
-.dyslexia-mode h2,
-.dyslexia-mode h3,
-.dyslexia-mode header h1,
-.dyslexia-mode section h2,
-.dyslexia-mode .glide-text-box h3 {
-  font-family: 'OpenDyslexic', Arial, sans-serif !important;
-}
-
-/* Reset and body */
-body, html {
-  margin: 0; 
-  padding: 0; 
-  height: 100%; 
-  font-family: 'Roboto Condensed', sans-serif; 
-  background-color: white; 
-  color: black;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/* DARK MODE */
-  .dark-mode body {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-  }
-
-  .dark-mode html {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-  }
-
-  .dark-mode #scroll-down {
-    color: #e0e0e0 !important;
-  }
-
-  .dark-mode section:not(.glide-section):not(#end-text),
-  .dark-mode #thankyou-quote {
-    background-color: #2a2a2a !important;
-    color: #e0e0e0 !important;
-    max-width: 800px;
-    margin: 2rem auto;
-    border-radius: 10px;
-    padding: 1.5rem 2rem;
-    box-sizing: border-box;
-  }
-
-  .dark-mode section,
-  .dark-mode header,
-  .dark-mode .glide-text-box {
-    background-color: #2a2a2a !important;
-    color: #e0e0e0 !important;
-  }
-
-  .dark-mode .btn {
-    border-color: #00ffff !important;
-    color: #00ffff !important;
-  }
-
-  .dark-mode .btn:hover {
-    background-color: #00ffff !important;
-    color: black !important;
-  }
-
-
-/* HIGH CONTRAST */
-  /* HIGH CONTRAST MODE — FIXED & REWRITTEN */
-  .high-contrast html,
-  .high-contrast body {
-    background-color: black !important;
-    color: #00FF00 !important;
-    font-weight: bold;
-  }
-
-  /* Keep header (Pacifico font area) untouched for legibility */
-  .high-contrast header {
-    background-color: transparent !important;
-    color: white !important;
-    text-shadow: none !important;
-  }
-
-  /* SECTIONS get quote-style box */
-  .high-contrast section:not(.glide-section):not(#end-text),
-  .high-contrast #thankyou-quote {
-    background-color: black !important;
-    color: #00FF00 !important;
-    text-shadow: 0 0 4px #00FF00, 0 0 8px #00FF00;
-    border: 2px solid #00FF00 !important;
-    border-radius: 10px;
-    box-shadow: 0 0 15px #00FF00 !important;
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1.5rem 2rem;
-    box-sizing: border-box;
-  }
-
-  /* Section headers (h2) readable, no Pacifico blurriness */
-  .high-contrast section h2 {
-    font-family: 'Roboto Condensed', sans-serif !important;
-    font-size: 2rem;
-    color: #00FF00 !important;
-    text-shadow: 0 0 8px #00FF00; 
-  }
-
-  /* Body text, li, p, etc */
-  .high-contrast p,
-  .high-contrast li,
-  .high-contrast #scroll-down {
-    color: #00FF00 !important;
-    text-shadow: 0 0 8px #00FF00; 
-  }
-
-  /* Buttons */
-  .high-contrast .btn,
-  .high-contrast .glide-text-box .btn {
-    background: transparent !important;
-    border: 3px solid #00FF00 !important;
-    color: #00FF00 !important;
-    font-weight: bold;
-    text-shadow: 0 0 8px #00FF00; 
-  }
-
-  .high-contrast .btn:hover,
-  .high-contrast .glide-text-box .btn:hover {
-    background-color: #00FF00 !important;
-    color: black !important;
-    text-shadow: none !important;
-  }
-
-  /* Glideshow text box */
-  .high-contrast .glide-text-box {
-    background-color: black !important;
-    color: #00FF00 !important;
-    text-shadow: 0 0 8px #00FF00; 
-    border: 2px solid #00FF00;
-  }
-  .high-contrast .glide-text-box h3 {
-    font-family: 'Roboto Condensed', sans-serif !important;
-    color: #00FF00 !important;
-    text-shadow: 0 0 8px #00FF00; 
-  }
-
-  /* Thank you quote */
-  .high-contrast #thankyou-quote {
-    background-color: black !important;
-    color: #00FF00 !important;
-    text-shadow: 0 0 8px #00FF00; 
-    border: 2px solid #00FF00 !important;
-    box-shadow: 0 0 15px #00FF00 !important;
-  }
-
-  /* Side nav and links */
-  .high-contrast #side-nav {
-    background-color: #222 !important;
-    box-shadow: none !important;
-    transform: translateX(-100%) !important;
-    border-right: 2px solid transparent !important; /* fix for thin green line bug */
-  }
-
-  .high-contrast #side-nav.open {
-    transform: translateX(0) !important;
-    border-right: 2px solid #00FF00 !important;
-  }
-
-  .high-contrast #side-nav a {
-    color: white !important;
-    text-shadow: 0 0 4px #00FF00;
-  }
-
-  .high-contrast #side-nav a:hover {
-    background-color: #00FF00 !important;
-    color: black !important;
-    text-shadow: none !important;
-  }
-
-  /* Hamburger icon glow */
-  .high-contrast #hamburger span {
-    background-color: #00FF00 !important;
-    box-shadow: 0 0 6px #00FF00 !important;
-  }
-
-
-/* DISABLE ANIMATIONS */
-.no-animations *:not(.glide-section):not(.glide-section *):not(#thankyou-quote) {
-  transition: none !important;
-  animation: none !important;
-  scroll-behavior: auto !important;
-}
-
-.no-animations .glide-section .bg-image {
-  transition: opacity 0.8s ease, transform 0.8s ease !important;
-}
-
-.no-animations .glide-text-box {
-  transition: opacity 0.6s ease, transform 0.6s ease !important;
-}
-
-.no-animations #thankyou-quote {
-  transition: opacity 0.8s ease, transform 0.8s ease !important;
-}
-
-/* HEADER */
-header {
-  position: relative;
-  height: 300px;
-  background-image: url('https://images.photowall.com/products/49384/autumn-in-paris.jpg?h=699&q=85');
-  background-size: cover;
-  background-position: center 40%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  text-align: center;
-  padding: 0 1rem;
-}
-
-header h1 {
-  font-family: 'Pacifico', cursive;
-  font-size: 60px;
-  margin: 0;
-  line-height: 1;
-  text-shadow: 6px 6px 18px rgba(0, 0, 0, 0.95);
-}
-
-header h2 {
-  font-weight: 300;
-  font-style: italic;
-  font-size: 22px;
-  margin: 10px 0 15px 0;
-  letter-spacing: 1px;
-  text-shadow:
-    0 0 5px rgba(0,0,0,0.9),
-    2px 2px 10px rgba(0,0,0,0.9),
-    0 0 10px rgba(0,0,0,0.95);
-}
-
-/* HAMBURGER MENU */
-#hamburger {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  width: 30px;
-  height: 24px;
-  cursor: pointer;
-  z-index: 1100;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-#hamburger span {
-  display: block;
-  height: 4px;
-  background: white;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-#hamburger.open span:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
-}
-
-#hamburger.open span:nth-child(2) {
-  opacity: 0;
-}
-
-#hamburger.open span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
-}
-
-/* SIDE NAV */
-#side-nav {
-  position: fixed;
-  top: 0; 
-  left: 0;
-  width: 250px;
-  height: 100vh;
-  background: #222;
-  padding-top: 60px;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.6);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 1050;
-  overflow-x: hidden;
-}
-
-#side-nav.open {
-  transform: translateX(0);
-}
-
-#side-nav a {
-  display: block;
-  padding: 1rem 2rem;
-  color: white;
-  font-weight: 600;
-  text-decoration: none;
-  font-family: 'Roboto Condensed', sans-serif;
-  border-bottom: 1px solid #444;
-  transition: background-color 0.2s ease;
-}
-
-#side-nav a:hover {
-  background-color: #005f5f;
-}
-
-/* SECTIONS */
-section:not(.glide-section) {
-  background: white;
-  padding: 2rem 1rem 1rem 1rem;
-  max-width: 900px;
-  margin: 0 auto;
-  color: black;
-  text-align: center;
-}
-
-section h2 {
-  font-family: 'Pacifico', cursive;
-  font-size: 2rem;
-  color: #007a7a;
-  margin: 1rem 0 0.5rem 0;
-}
-
-p, li {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 1.2rem;
-  line-height: 1.5;
-  margin: 0.6rem 0;
-  text-align: left;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-ul {
-  padding-left: 1.5rem;
-  text-align: left;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* BUTTONS */
-.btn {
-  font-size: 1.1rem;
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 1rem 2.5rem;
-  border: 2px solid #007a7a;
-  background: transparent;
-  color: #007a7a;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  text-align: center;
-  user-select: none;
-}
-
-.btn:hover, .btn:focus {
-  background-color: #007a7a;
-  color: white;
-  outline: none;
-}
-
-#scroll-down {
-  font-size: 1.2rem;
-  font-weight: bold;
-  font-style: italic;
-  margin-top: 0.4rem;
-  margin-bottom: 1rem;
-  letter-spacing: 0.03em;
-}
-
-/* THANK YOU QUOTE */
-#thankyou-quote {
-  font-family: 'Pacifico', cursive;
-  font-size: 1.1rem;
-  color: #007a7a;
-  max-width: 700px;
-  margin: 2rem auto 2rem auto;
-  position: relative;
-  text-align: center;
-  background: white;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,122,122,0.15);
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-  z-index: 50;
-}
-
-#thankyou-quote.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-#thankyou-quote::before {
-  content: """;
-  font-size: 4rem;
-  color: rgba(0,122,122,0.15);
-  position: absolute;
-  top: -30px;
-  left: -30px;
-  font-family: 'Pacifico', cursive;
-}
-
-/* GLIDESHOW SECTIONS */
-.glide-section {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-.glide-section .bg-image {
-  position: absolute;
-  top: 0; 
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.8);
-  z-index: 1;
-  opacity: 1;
-  transform: scale(1);
-}
-
-.glide-text-box {
-  position: absolute;
-  right: 0;
-  top: 0;
-  background: white;
-  color: black;
-  padding: 3rem;
-  width: 50%;
-  height: 100%;
-  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-  z-index: 10;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 1.1rem;
-  line-height: 1.5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.glide-text-box h3 {
-  font-family: 'Pacifico', cursive;
-  color: #007a7a;
-  font-size: 1.8rem;
-  margin-top: 0;
-  margin-bottom: 0.8rem;
-  text-align: left;
-}
-
-.glide-text-box p {
-  font-size: 1.3rem;
-  margin: 0 0 1rem 0;
-  text-align: left;
-}
-
-.glide-text-box .btn {
-  margin-top: 0.6rem;
-}
-
-/* Active glideshow states */
-.glide-section.active .bg-image {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-.glide-section.active .glide-text-box {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Reverse layout for alternating text/image positions */
-.glide-section.reverse .bg-image {
-  left: auto;
-  right: 0;
-}
-
-.glide-section.reverse .glide-text-box {
-  right: auto;
-  left: 0;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tutoring Dashboard</title>
+
+  <!-- French-themed favicon -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2248%22>🗼</text></svg>" />
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Condensed:ital,wght@0,300;1,300&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf" rel="stylesheet"
+    as="font" type="font/otf" crossorigin>
+
+  <style>
+    @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf') format('opentype');
+    }
+
+    .dyslexia-mode {
+      font-family: 'OpenDyslexic', Arial, sans-serif !important;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+    }
+
+    .dyslexia-mode h1,
+    .dyslexia-mode h2,
+    .dyslexia-mode h3,
+    .dyslexia-mode header h1,
+    .dyslexia-mode section h2,
+    .dyslexia-mode .glide-text-box h3 {
+      font-family: 'OpenDyslexic', Arial, sans-serif !important;
+    }
+
+    /* Reset and body */
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Roboto Condensed', sans-serif;
+      background-color: white;
+      color: black;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    /* DARK MODE */
+    .dark-mode body {
+      background-color: #1e1e1e !important;
+      color: #e0e0e0 !important;
+    }
+
+    .dark-mode html {
+      background-color: #1e1e1e !important;
+      color: #e0e0e0 !important;
+    }
+
+    .dark-mode #scroll-down {
+      color: #e0e0e0 !important;
+    }
+
+    .dark-mode section:not(.glide-section):not(#end-text),
+    .dark-mode #thankyou-quote {
+      background-color: #2a2a2a !important;
+      color: #e0e0e0 !important;
+      max-width: 800px;
+      margin: 2rem auto;
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      box-sizing: border-box;
+    }
+
+    .dark-mode section,
+    .dark-mode header,
+    .dark-mode .glide-text-box {
+      background-color: #2a2a2a !important;
+      color: #e0e0e0 !important;
+    }
+
+    .dark-mode .btn {
+      border-color: #00ffff !important;
+      color: #00ffff !important;
+    }
+
+    .dark-mode .btn:hover {
+      background-color: #00ffff !important;
+      color: black !important;
+    }
+
+
+    /* HIGH CONTRAST */
+    /* HIGH CONTRAST MODE — FIXED & REWRITTEN */
+    .high-contrast html,
+    .high-contrast body {
+      background-color: black !important;
+      color: #00FF00 !important;
+      font-weight: bold;
+    }
+
+    /* Keep header (Pacifico font area) untouched for legibility */
+    .high-contrast header {
+      background-color: transparent !important;
+      color: white !important;
+      text-shadow: none !important;
+    }
+
+    /* SECTIONS get quote-style box */
+    .high-contrast section:not(.glide-section):not(#end-text),
+    .high-contrast #thankyou-quote {
+      background-color: black !important;
+      color: #00FF00 !important;
+      text-shadow: 0 0 4px #00FF00, 0 0 8px #00FF00;
+      border: 2px solid #00FF00 !important;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00FF00 !important;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1.5rem 2rem;
+      box-sizing: border-box;
+    }
+
+    /* Section headers (h2) readable, no Pacifico blurriness */
+    .high-contrast section h2 {
+      font-family: 'Roboto Condensed', sans-serif !important;
+      font-size: 2rem;
+      color: #00FF00 !important;
+      text-shadow: 0 0 8px #00FF00;
+    }
+
+    /* Body text, li, p, etc */
+    .high-contrast p,
+    .high-contrast li,
+    .high-contrast #scroll-down {
+      color: #00FF00 !important;
+      text-shadow: 0 0 8px #00FF00;
+    }
+
+    /* Buttons */
+    .high-contrast .btn,
+    .high-contrast .glide-text-box .btn {
+      background: transparent !important;
+      border: 3px solid #00FF00 !important;
+      color: #00FF00 !important;
+      font-weight: bold;
+      text-shadow: 0 0 8px #00FF00;
+    }
+
+    .high-contrast .btn:hover,
+    .high-contrast .glide-text-box .btn:hover {
+      background-color: #00FF00 !important;
+      color: black !important;
+      text-shadow: none !important;
+    }
+
+    /* Glideshow text box */
+    .high-contrast .glide-text-box {
+      background-color: black !important;
+      color: #00FF00 !important;
+      text-shadow: 0 0 8px #00FF00;
+      border: 2px solid #00FF00;
+    }
+
+    .high-contrast .glide-text-box h3 {
+      font-family: 'Roboto Condensed', sans-serif !important;
+      color: #00FF00 !important;
+      text-shadow: 0 0 8px #00FF00;
+    }
+
+    /* Thank you quote */
+    .high-contrast #thankyou-quote {
+      background-color: black !important;
+      color: #00FF00 !important;
+      text-shadow: 0 0 8px #00FF00;
+      border: 2px solid #00FF00 !important;
+      box-shadow: 0 0 15px #00FF00 !important;
+    }
+
+    /* Side nav and links */
+    .high-contrast #side-nav {
+      background-color: #222 !important;
+      box-shadow: none !important;
+      transform: translateX(-100%) !important;
+      border-right: 2px solid transparent !important;
+      /* fix for thin green line bug */
+    }
+
+    .high-contrast #side-nav.open {
+      transform: translateX(0) !important;
+      border-right: 2px solid #00FF00 !important;
+    }
+
+    .high-contrast #side-nav a {
+      color: white !important;
+      text-shadow: 0 0 4px #00FF00;
+    }
+
+    .high-contrast #side-nav a:hover {
+      background-color: #00FF00 !important;
+      color: black !important;
+      text-shadow: none !important;
+    }
+
+    /* Hamburger icon glow */
+    .high-contrast #hamburger span {
+      background-color: #00FF00 !important;
+      box-shadow: 0 0 6px #00FF00 !important;
+    }
+
+
+    /* DISABLE ANIMATIONS */
+    .no-animations *:not(.glide-section):not(.glide-section *):not(#thankyou-quote) {
+      transition: none !important;
+      animation: none !important;
+      scroll-behavior: auto !important;
+    }
+
+    .no-animations .glide-section .bg-image {
+      transition: opacity 0.8s ease, transform 0.8s ease !important;
+    }
+
+    .no-animations .glide-text-box {
+      transition: opacity 0.6s ease, transform 0.6s ease !important;
+    }
+
+    .no-animations #thankyou-quote {
+      transition: opacity 0.8s ease, transform 0.8s ease !important;
+    }
+
+    /* HEADER */
     header {
-      height: 220px;
+      position: relative;
+      height: 300px;
+      background-image: url('https://images.photowall.com/products/49384/autumn-in-paris.jpg?h=699&q=85');
+      background-size: cover;
+      background-position: center 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 0 1rem;
     }
 
     header h1 {
-      font-size: 2rem;
+      font-family: 'Pacifico', cursive;
+      font-size: 60px;
+      margin: 0;
+      line-height: 1;
+      text-shadow: 6px 6px 18px rgba(0, 0, 0, 0.95);
     }
 
     header h2 {
-      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 22px;
+      margin: 10px 0 15px 0;
+      letter-spacing: 1px;
+      text-shadow:
+        0 0 5px rgba(0, 0, 0, 0.9),
+        2px 2px 10px rgba(0, 0, 0, 0.9),
+        0 0 10px rgba(0, 0, 0, 0.95);
+    }
+
+    /* HAMBURGER MENU */
+    #hamburger {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 30px;
+      height: 24px;
+      cursor: pointer;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #hamburger span {
+      display: block;
+      height: 4px;
+      background: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    #hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    #hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    #hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* SIDE NAV */
+    #side-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background: #222;
+      padding-top: 60px;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.6);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1050;
+      overflow-x: hidden;
+    }
+
+    #side-nav.open {
+      transform: translateX(0);
+    }
+
+    #side-nav a {
+      display: block;
+      padding: 1rem 2rem;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      font-family: 'Roboto Condensed', sans-serif;
+      border-bottom: 1px solid #444;
+      transition: background-color 0.2s ease;
+    }
+
+    #side-nav a:hover {
+      background-color: #005f5f;
+    }
+
+    /* SECTIONS */
+    section:not(.glide-section) {
+      background: white;
+      padding: 2rem 1rem 1rem 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+      color: black;
+      text-align: center;
     }
 
     section h2 {
-      font-size: 1.6rem;
+      font-family: 'Pacifico', cursive;
+      font-size: 2rem;
+      color: #007a7a;
+      margin: 1rem 0 0.5rem 0;
     }
 
+    p,
+    li {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin: 0.6rem 0;
+      text-align: left;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+      text-align: left;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* BUTTONS */
+    .btn {
+      font-size: 1.1rem;
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 1rem 2.5rem;
+      border: 2px solid #007a7a;
+      background: transparent;
+      color: #007a7a;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-align: center;
+      user-select: none;
+    }
+
+    .btn:hover, .btn:focus {
+      background-color: #007a7a;
+      color: white;
+      outline: none;
+    }
+    #scroll-down {
+      font-size: 1.2rem;
+      font-weight: bold;
+      font-style: italic;
+      margin-top: 0.4rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* THANK YOU QUOTE */
+    #thankyou-quote {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.1rem;
+      color: #007a7a;
+      max-width: 700px;
+      margin: 2rem auto 2rem auto;
+      position: relative;
+      text-align: center;
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 122, 122, 0.15);
+      opacity: 1;
+      transform: translateX(0);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      z-index: 50;
+    }
+
+    #thankyou-quote.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    #thankyou-quote::before {
+      content: "" ";
+ font-size: 4rem;
+      color: rgba(0, 122, 122, 0.15);
+      position: absolute;
+      top: -30px;
+      left: -30px;
+      font-family: 'Pacifico', cursive;
+    }
+
+    /* GLIDESHOW SECTIONS */
     .glide-section {
+      position: relative;
       height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
     }
 
     .glide-section .bg-image {
-      width: 100% !important;
-      height: 100% !important;
-      left: 0 !important;
-      right: auto !important;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.8);
+      z-index: 1;
+      opacity: 1;
+      transform: scale(1);
     }
 
     .glide-text-box {
-      position: absolute !important;
-      left: 50% !important;
-      top: 50% !important;
-      transform: translate(-50%, -50%) !important;
-      width: 90% !important;
-      max-width: 400px !important;
-      height: auto !important;
-      padding: 2rem !important;
-      border-radius: 10px !important;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: white;
+      color: black;
+      padding: 3rem;
+      width: 50%;
+      height: 100%;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
     }
 
     .glide-text-box h3 {
-      font-size: 1.6rem;
+      font-family: 'Pacifico', cursive;
+      color: #007a7a;
+      font-size: 1.8rem;
+      margin-top: 0;
+      margin-bottom: 0.8rem;
+      text-align: left;
     }
 
     .glide-text-box p {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
+      margin: 0 0 1rem 0;
+      text-align: left;
     }
 
-    p, li {
+    .glide-text-box .btn {
+      margin-top: 0.6rem;
+    }
+
+    /* Active glideshow states */
+    .glide-section.active .bg-image {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .glide-section.active .glide-text-box {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Reverse layout for alternating text/image positions */
+    .glide-section.reverse .bg-image {
+      left: auto;
+      right: 0;
+    }
+
+    .glide-section.reverse .glide-text-box {
+      right: auto;
+      left: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        height: 220px;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      header h2 {
+        font-size: 1rem;
+      }
+
+      section h2 {
+        font-size: 1.6rem;
+      }
+
+      .glide-section {
+        height: 100vh;
+      }
+
+      .glide-section .bg-image {
+        width: 100% !important;
+        height: 100% !important;
+        left: 0 !important;
+        right: auto !important;
+      }
+
+      .glide-text-box {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90% !important;
+        max-width: 400px !important;
+        height: auto !important;
+        padding: 2rem !important;
+        border-radius: 10px !important;
+      }
+
+      .glide-text-box h3 {
+        font-size: 1.6rem;
+      }
+
+      .glide-text-box p {
+        font-size: 1.2rem;
+      }
+
+      p,
+      li {
+        font-size: 1.1rem;
+      }
+
+      .btn {
+        font-size: 1rem;
+        padding: 0.8rem 2rem;
+      }
+
+      #scroll-down {
+        font-size: 1.1rem;
+      }
+
+      #thankyou-quote {
+        font-size: 1rem;
+      }
+
+      #hamburger {
+        top: 12px;
+        left: 12px;
+        width: 26px;
+        height: 20px;
+      }
+    }
+
+    #glideshow {
+      position: relative;
+      width: 100vw;
+    }
+
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease;
+    }
+
+    #loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .french-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    #baguette {
+      width: 80px;
+      height: auto;
+      animation: baguetteSpin 2s linear infinite;
+      display: block;
+      max-width: 100px;
+    }
+
+    @keyframes baguetteSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    #french-tip {
       font-size: 1.1rem;
+      color: white;
+      font-family: 'Roboto Condensed', sans-serif;
     }
-
-    .btn {
-      font-size: 1rem;
-      padding: 0.8rem 2rem;
-    }
-
-    #scroll-down {
-      font-size: 1.1rem;
-    }
-
-    #thankyou-quote {
-      font-size: 1rem;
-    }
-
-    #hamburger {
-      top: 12px; 
-      left: 12px;
-      width: 26px; 
-      height: 20px;
-    }
-  }
-
-#glideshow {
-  position: relative;
-  width: 100vw;
-}
-</style>
+  </style>
 </head>
+
 <body>
 
-<header>
-  <h1>Les Tuteurs Français</h1>
-  <h2>M. RAUSHAN ET MLLE. OLIVIA</h2>
-</header>
+  <header>
+    <h1>Les Tuteurs Français</h1>
+    <h2>M. RAUSHAN ET MLLE. OLIVIA</h2>
+  </header>
 
-<!-- Hamburger button -->
-<div id="hamburger" aria-label="Menu" role="button" tabindex="0">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
+  <!-- Hamburger button -->
+  <div id="hamburger" aria-label="Menu" role="button" tabindex="0">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-<!-- Side Navigation -->
-<nav id="side-nav" aria-label="Primary">
-  <a href="#">Home</a>
-  <a href="settings.html">Settings</a>
-  <a href="sources.html">Sources</a>
-  <a href="contact.html">Contact Us</a>
-</nav>
+  <!-- Side Navigation -->
+  <nav id="side-nav" aria-label="Primary">
+    <a href="#">Home</a>
+    <a href="settings.html">Settings</a>
+    <a href="sources.html">Sources</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>
+  <div id="loading-screen">
+    <div class="french-loader">
+      <img id="baguette"
+        src="https://images.vexels.com/media/users/3/156533/isolated/preview/5ec787f2bfceab659b30cea66ecff88d-baguette-bread-cartoon-icon.png"
+        alt="Baguette spinning" />
 
-<!-- INFORMATION SECTION -->
-<section id="information">
-  <h2>Information</h2>
-  <p>We have started this tutoring service in order to provide help for students struggling in their French classes. Our mission is to help students by offering high-quality, comprehensive and effective services in French. By using lessons and worksheets to allow practice in speaking, listening, reading, and writing, students can gain an understanding of material. We focus on teaching in a way that fits what each student needs. For French 1 and 2 students, our classes are on the weekend and last for 1.5 hours to make sure students get enough time to learn the material. For French 3 and 4 students, our classes are on a flexible schedule to match a busy high school schedule. Students sign up for individual classes based on the time that works for them, there is no fixed schedule or repeated scheduling (yet!).</p>
-  <div id="scroll-down">Scroll down to find the sign up link!</div>
-</section>
 
-<!-- ZOOM SECTION -->
-<section id="zoom">
-  <h2>Zoom</h2>
-  <p>Our classes are accessed using Zoom, in order to join, students must keep the email sent by both Zoom and one of us for information on how to join the meeting. There is no app required allowing you to use a certain device, however I prefer the usage of school-issued Chromebooks.</p>
-</section>
-
-<!-- STUDENT RESOURCES -->
-<section id="student-resources">
-  <h2>Student Resources</h2>
-  <button class="btn" onclick="window.open('https://sites.google.com/lcps.org/student-resources/tutoring-worksheets','_blank')">Click Here!</button>
-</section>
-
-<!-- OUR SERVICES -->
-<section id="our-services">
-  <h2>Our Services</h2>
-  <ul>
-    <li>Free Online Resources</li>
-    <li>French 1 & 2 | Group Session Tutoring</li>
-    <li>French 3 & 4 | One-On-One Tutoring</li>
-  </ul>
-</section>
-
-<!-- LEARN MORE -->
-<section id="learn-more">
-  <h2>Link Hub!</h2>
-  <button class="btn" onclick="window.open('https://bit.ly/m/LCPSFrench', '_blank')">Click Here!</button>
-</section>
-
-<!-- TUTORING SERVICE AGREEMENT -->
-<section id="tutoring-service-agreement">
-  <h2>Tutoring Service Agreement</h2>
-  <button class="btn" onclick="window.open('https://form.jotform.com/242386744986070', '_blank')">Click Here!</button>
-</section>
-
-<!-- FAQS -->
-<section id="faqs">
-  <h2>FAQS</h2>
-  <ul>
-    <li><strong>Q:</strong> What if I can't make it to your classes but I still need help?<br><strong>A:</strong> That's fine, just email one of us and we can try to come up with a time that works for both of us.</li>
-    <li><strong>Q:</strong> When are classes?<br><strong>A:</strong> Classes will generally be on Saturdays for French 1 and 2. There is a flexible schedule for French 3 and 4 students.</li>
-    <li><strong>Q:</strong> How long do I have to sign up?<br><strong>A:</strong> Sign up forms are due at least 24 hours before the class takes place, service agreement is due at least 2 hours before the class.</li>
-    <li><strong>Q:</strong> Where will classes take place?<br><strong>A:</strong> Classes will typically be online using Zoom.</li>
-    <li><strong>Q:</strong> What is the cancellation policy?<br><strong>A:</strong> If you need to cancel, please do so at least 12 hours before the class. If you cancel within 12 hours, you may be barred future participation.</li>
-  </ul>
-  <p style="text-align:center;">Once you've signed up, all information will be sent out regarding time and place. If there are any further questions, please contact us or ask our AI agent.</p>
-</section>
-
-<!-- THANK YOU QUOTE -->
-<div id="thankyou-quote" aria-label="Thank you quote">
-  Merci pour être inscrit! Nous sommes tellement ravis de vous rencontrer aux meetings!
-</div>
-
-<!-- GLIDESHOW -->
-<div id="glideshow">
-  <!-- Section 1: Image left, text right -->
-  <section class="glide-section" id="glide1">
-    <div class="bg-image" style="background-image: url('https://media1.thrillophilia.com/filestore/8r5spqnazgna2y75nhkyqv7enate_Arc%20de%20Triomphe.jpg');"></div>
-    <div class="glide-text-box">
-      <h3>Already Signed Up?</h3>
-      <p>We will generally meet using Zoom. A tutor will send emails with details the week of the session. If the time / location changes, it will be included in the email. Email lcps.fr1@gmail.com (Raushan) or lcps.fr2@gmail.com (Olivia) if there are any questions!</p>
+      <div id="french-tip"></div>
     </div>
+
+  </div>
+
+  <!-- INFORMATION SECTION -->
+  <section id="information">
+    <h2>Information</h2>
+    <p>We have started this tutoring service in order to provide help for students struggling in their French classes.
+      Our mission is to help students by offering high-quality, comprehensive and effective services in French. By using
+      lessons and worksheets to allow practice in speaking, listening, reading, and writing, students can gain an
+      understanding of material. We focus on teaching in a way that fits what each student needs. For French 1 and 2
+      students, our classes are on the weekend and last for 1.5 hours to make sure students get enough time to learn the
+      material. For French 3 and 4 students, our classes are on a flexible schedule to match a busy high school
+      schedule. Students sign up for individual classes based on the time that works for them, there is no fixed
+      schedule or repeated scheduling (yet!).</p>
+    <div id="scroll-down">Scroll down to find the sign up link!</div>
   </section>
 
-  <!-- Section 2: Text left, image right -->
-  <section class="glide-section reverse" id="glide2">
-    <div class="bg-image" style="background-image: url('https://freerangestock.com/sample/115458/a-side-view-from-eiffel-tower-s-base.jpg');"></div>
-    <div class="glide-text-box">
-      <h3>Required Material to Bring</h3>
-      <p>Bring what you would normally take to French class. Bring a computer, pencil/pen, if allowed by your teacher bring your binder and your French notebook. Feel free to bring homework assignments to receive help completing them.</p>
+  <!-- ZOOM SECTION -->
+  <section id="zoom">
+    <h2>Zoom</h2>
+    <p>Our classes are accessed using Zoom, in order to join, students must keep the email sent by both Zoom and one of
+      us for information on how to join the meeting. There is no app required allowing you to use a certain device,
+      however I prefer the usage of school-issued Chromebooks.</p>
   </section>
 
-  <!-- Section 3: Image left, text right -->
-  <section class="glide-section" id="glide3">
-    <div class="bg-image" style="background-image: url('https://images.saymedia-content.com/.image/t_share/MjAyNTU5ODUzNzQzNTgwMTcy/top-10-things-to-do-in-lyon-france.jpg');"></div>
-    <div class="glide-text-box">
-      <h3>FR1 & FR2 Sign-Up</h3>
-      <p>Ready to improve your French skills? Join our group sessions designed specifically for French 1 and 2 students!</p>
-      <button class="btn" onclick="window.open('https://signup.com/go/vOpyDyj')">Sign Up</button>
-    </div>
+  <!-- STUDENT RESOURCES -->
+  <section id="student-resources">
+    <h2>Student Resources</h2>
+    <button class="btn"
+      onclick="window.open('https://sites.google.com/lcps.org/student-resources/tutoring-worksheets','_blank')">Click
+      Here!</button>
   </section>
 
-  <!-- Section 4: Text left, image right -->
-  <section class="glide-section reverse" id="glide4">
-    <div class="bg-image" style="background-image: url('https://twoinfrance.com/wp-content/uploads/2022/12/versailles-_gardens.webp');"></div>
-    <div class="glide-text-box">
-      <h3>FR3 & FR4 Sign-Up</h3>
-      <p>Advanced French students get personalized one-on-one tutoring sessions on a flexible schedule that works for you!</p>
-      <button class="btn" onclick="window.open('https://calendar.google.com/calendar/u/0/appointments/AcZssZ1WFOJcLPZpqCPZlOWtD80368yVCpy8NGaCrRc=?gv=true')">Sign Up</button>
-    </div>
+  <!-- OUR SERVICES -->
+  <section id="our-services">
+    <h2>Our Services</h2>
+    <ul>
+      <li>Free Online Resources</li>
+      <li>French 1 & 2 | Group Session Tutoring</li>
+      <li>French 3 & 4 | One-On-One Tutoring</li>
+    </ul>
   </section>
-</div>
 
-<!-- AI AGENT EMBED CODE -->
-<script src='https://cdn.jotfor.ms/agent/embedjs/01976993751b7722b0d1f2299dc209e3698d/embed.js?skipWelcome=1&maximizable=1'></script>
+  <!-- LEARN MORE -->
+  <section id="learn-more">
+    <h2>Link Hub!</h2>
+    <button class="btn" onclick="window.open('https://bit.ly/m/LCPSFrench', '_blank')">Click Here!</button>
+  </section>
 
-<script>
-// Variables
-let glideSections = [];
-let isGlideshowInitialized = false;
+  <!-- TUTORING SERVICE AGREEMENT -->
+  <section id="tutoring-service-agreement">
+    <h2>Tutoring Service Agreement</h2>
+    <button class="btn" onclick="window.open('https://form.jotform.com/242386744986070', '_blank')">Click Here!</button>
+  </section>
 
-// Initialize everything when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-  initializeHamburgerMenu();
-  initializeGlideshow();
-  initializeScrollHandlers();
-  loadUserSettings();
-});
+  <!-- FAQS -->
+  <section id="faqs">
+    <h2>FAQS</h2>
+    <ul>
+      <li><strong>Q:</strong> What if I can't make it to your classes but I still need help?<br><strong>A:</strong>
+        That's fine, just email one of us and we can try to come up with a time that works for both of us.</li>
+      <li><strong>Q:</strong> When are classes?<br><strong>A:</strong> Classes will generally be on Saturdays for French
+        1 and 2. There is a flexible schedule for French 3 and 4 students.</li>
+      <li><strong>Q:</strong> How long do I have to sign up?<br><strong>A:</strong> Sign up forms are due at least 24
+        hours before the class takes place, service agreement is due at least 2 hours before the class.</li>
+      <li><strong>Q:</strong> Where will classes take place?<br><strong>A:</strong> Classes will typically be online
+        using Zoom.</li>
+      <li><strong>Q:</strong> What is the cancellation policy?<br><strong>A:</strong> If you need to cancel, please do
+        so at least 12 hours before the class. If you cancel within 12 hours, you may be barred future participation.
+      </li>
+    </ul>
+    <p style="text-align:center;">Once you've signed up, all information will be sent out regarding time and place. If
+      there are any further questions, please contact us or ask our AI agent.</p>
+  </section>
 
-// Hamburger menu functionality
-function initializeHamburgerMenu() {
-  const hamburger = document.getElementById('hamburger');
-  const sideNav = document.getElementById('side-nav');
+  <!-- THANK YOU QUOTE -->
+  <div id="thankyou-quote" aria-label="Thank you quote">
+    Merci pour être inscrit! Nous sommes tellement ravis de vous rencontrer aux meetings!
+  </div>
 
-  if (hamburger && sideNav) {
-    hamburger.addEventListener('click', function() {
-      hamburger.classList.toggle('open');
-      sideNav.classList.toggle('open');
+  <!-- GLIDESHOW -->
+  <div id="glideshow">
+    <!-- Section 1: Image left, text right -->
+    <section class="glide-section" id="glide1">
+      <div class="bg-image"
+        style="background-image: url('https://media1.thrillophilia.com/filestore/8r5spqnazgna2y75nhkyqv7enate_Arc%20de%20Triomphe.jpg');">
+      </div>
+      <div class="glide-text-box">
+        <h3>Already Signed Up?</h3>
+        <p>We will generally meet using Zoom. A tutor will send emails with details the week of the session. If the time
+          / location changes, it will be included in the email. Email lcps.fr1@gmail.com (Raushan) or lcps.fr2@gmail.com
+          (Olivia) if there are any questions!</p>
+      </div>
+    </section>
+
+    <!-- Section 2: Text left, image right -->
+    <section class="glide-section reverse" id="glide2">
+      <div class="bg-image"
+        style="background-image: url('https://freerangestock.com/sample/115458/a-side-view-from-eiffel-tower-s-base.jpg');">
+      </div>
+      <div class="glide-text-box">
+        <h3>Required Material to Bring</h3>
+        <p>Bring what you would normally take to French class. Bring a computer, pencil/pen, if allowed by your teacher
+          bring your binder and your French notebook. Feel free to bring homework assignments to receive help completing
+          them.</p>
+    </section>
+
+    <!-- Section 3: Image left, text right -->
+    <section class="glide-section" id="glide3">
+      <div class="bg-image"
+        style="background-image: url('https://images.saymedia-content.com/.image/t_share/MjAyNTU5ODUzNzQzNTgwMTcy/top-10-things-to-do-in-lyon-france.jpg');">
+      </div>
+      <div class="glide-text-box">
+        <h3>FR1 & FR2 Sign-Up</h3>
+        <p>Ready to improve your French skills? Join our group sessions designed specifically for French 1 and 2
+          students!</p>
+        <button class="btn" onclick="window.open('https://signup.com/go/vOpyDyj')">Sign Up</button>
+      </div>
+    </section>
+
+    <!-- Section 4: Text left, image right -->
+    <section class="glide-section reverse" id="glide4">
+      <div class="bg-image"
+        style="background-image: url('https://twoinfrance.com/wp-content/uploads/2022/12/versailles-_gardens.webp');">
+      </div>
+      <div class="glide-text-box">
+        <h3>FR3 & FR4 Sign-Up</h3>
+        <p>Advanced French students get personalized one-on-one tutoring sessions on a flexible schedule that works for
+          you!</p>
+        <button class="btn"
+          onclick="window.open('https://calendar.google.com/calendar/u/0/appointments/AcZssZ1WFOJcLPZpqCPZlOWtD80368yVCpy8NGaCrRc=?gv=true')">Sign
+          Up</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- AI AGENT EMBED CODE -->
+  <script
+    src='https://cdn.jotfor.ms/agent/embedjs/01976993751b7722b0d1f2299dc209e3698d/embed.js?skipWelcome=1&maximizable=1'></script>
+  <script>
+    // Fade out the loader once everything is loaded
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loading-screen');
+      setTimeout(() => {
+        loader.classList.add('fade-out');
+      }, 3000); // Optional delay for aesthetic
     });
-  }
-}
+    const tips = [
+      "Astuce: Adjectives always have to match the gender and plurality of the noun they describe.",
+      "Astuce: En français, on ne prononce jamais les lettres finales!",
+      "Astuce: 'Y' replaces a thing or a place that used 'à', 'en', 'chez'.",
+      "Astuce: 'En' replaces 'de' + something and could also signify a quantity.",
+      "Astuce: 'Ne...pas' surrounds a verb to negate it.",
+      "Astuce: 'Depuis' = since / for (time); 'Il y a' = ago.",
+      "Astuce: Learn 5 nouveaux mots chaque jour!",
+      "Astuce: Les accents change the meaning of words - café ≠ cafè!"
+    ];
+    let currentTip = 0;
+    const tipElement = document.getElementById('french-tip');
 
-// Glideshow initialization and management
-function initializeGlideshow() {
-  glideSections = document.querySelectorAll('.glide-section');
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+    if (tipElement) tipElement.textContent = randomTip;
+    // Add loading screen on link clicks
 
-  if (glideSections.length === 0) {
-    setTimeout(initializeGlideshow, 100);
-    return;
-  }
+  </script>
 
-  // Ensure all sections start inactive
-  glideSections.forEach(section => section.classList.remove('active'));
+  <script>
+    // Variables
+    let glideSections = [];
+    let isGlideshowInitialized = false;
 
-  // Activate first section immediately
-  glideSections[0].classList.add('active');
-  isGlideshowInitialized = true;
+    // Initialize everything when DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+      initializeHamburgerMenu();
+      initializeGlideshow();
+      initializeScrollHandlers();
+      loadUserSettings();
+    });
 
-  // Run initial update
-  updateGlideshow();
-}
+    // Hamburger menu functionality
+    function initializeHamburgerMenu() {
+      const hamburger = document.getElementById('hamburger');
+      const sideNav = document.getElementById('side-nav');
 
-function updateGlideshow() {
-  if (!isGlideshowInitialized || glideSections.length === 0) return;
-
-  let activeFound = false;
-  const viewportHeight = window.innerHeight;
-
-  glideSections.forEach((section, index) => {
-    const rect = section.getBoundingClientRect();
-    const isInView = rect.top <= viewportHeight * 0.6 && rect.bottom >= viewportHeight * 0.4;
-
-    if (!activeFound && isInView) {
-      section.classList.add('active');
-      activeFound = true;
-    } else {
-      section.classList.remove('active');
+      if (hamburger && sideNav) {
+        hamburger.addEventListener('click', function () {
+          hamburger.classList.toggle('open');
+          sideNav.classList.toggle('open');
+        });
+      }
     }
-  });
 
-  // Fallback: ensure first section is active if nothing else is
-  if (!activeFound && glideSections.length > 0) {
-    glideSections[0].classList.add('active');
-  }
-}
+    // Glideshow initialization and management
+    function initializeGlideshow() {
+      glideSections = document.querySelectorAll('.glide-section');
 
-// Scroll event handlers
-function initializeScrollHandlers() {
-  let ticking = false;
+      if (glideSections.length === 0) {
+        setTimeout(initializeGlideshow, 100);
+        return;
+      }
 
-  function handleScroll() {
-    if (!ticking) {
-      requestAnimationFrame(function() {
+      // Ensure all sections start inactive
+      glideSections.forEach(section => section.classList.remove('active'));
+
+      // Activate first section immediately
+      glideSections[0].classList.add('active');
+      isGlideshowInitialized = true;
+
+      // Run initial update
+      updateGlideshow();
+    }
+
+    function updateGlideshow() {
+      if (!isGlideshowInitialized || glideSections.length === 0) return;
+
+      let activeFound = false;
+      const viewportHeight = window.innerHeight;
+
+      glideSections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        const isInView = rect.top <= viewportHeight * 0.6 && rect.bottom >= viewportHeight * 0.4;
+
+        if (!activeFound && isInView) {
+          section.classList.add('active');
+          activeFound = true;
+        } else {
+          section.classList.remove('active');
+        }
+      });
+
+      // Fallback: ensure first section is active if nothing else is
+      if (!activeFound && glideSections.length > 0) {
+        glideSections[0].classList.add('active');
+      }
+    }
+
+    // Scroll event handlers
+    function initializeScrollHandlers() {
+      let ticking = false;
+
+      function handleScroll() {
+        if (!ticking) {
+          requestAnimationFrame(function () {
+            updateGlideshow();
+            updateQuoteVisibility();
+            updateHamburgerColor();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+
+      window.addEventListener('scroll', handleScroll, {passive: true});
+    }
+
+    function updateQuoteVisibility() {
+      const quote = document.getElementById('thankyou-quote');
+      if (quote) {
+        const rect = quote.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.9) {
+          quote.classList.add('visible');
+        }
+      }
+    }
+
+    function updateHamburgerColor() {
+      const header = document.querySelector('header');
+      const hamburgerSpans = document.querySelectorAll('#hamburger span');
+
+      if (header && hamburgerSpans.length > 0) {
+        const shouldBeBlack = window.scrollY > header.offsetHeight - 100;
+        const color = shouldBeBlack ? 'black' : 'white';
+
+        hamburgerSpans.forEach(span => {
+          span.style.backgroundColor = color;
+        });
+      }
+    }
+
+    // Load user settings from localStorage
+    function loadUserSettings() {
+      const body = document.body;
+      const html = document.documentElement;
+
+      if (localStorage.getItem('darkMode') === 'true') {
+        html.classList.add('dark-mode');
+        body.classList.add('dark-mode');
+      }
+
+      if (localStorage.getItem('highContrast') === 'true') {
+        html.classList.add('high-contrast');
+        body.classList.add('high-contrast');
+      }
+
+      if (localStorage.getItem('dyslexiaMode') === 'true') {
+        body.classList.add('dyslexia-mode');
+        html.classList.add('dyslexia-mode');
+      }
+
+
+      // Trigger initial updates after settings load
+      setTimeout(function () {
         updateGlideshow();
         updateQuoteVisibility();
         updateHamburgerColor();
-        ticking = false;
-      });
-      ticking = true;
+      }, 100);
     }
-  }
 
-  window.addEventListener('scroll', handleScroll, { passive: true });
-}
+    // Ensure glideshow works even if initialization is delayed
+    setTimeout(function () {
+      if (!isGlideshowInitialized) {
+        initializeGlideshow();
+      }
+    }, 500);
 
-function updateQuoteVisibility() {
-  const quote = document.getElementById('thankyou-quote');
-  if (quote) {
-    const rect = quote.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.9) {
-      quote.classList.add('visible');
-    }
-  }
-}
+    setTimeout(function () {
+      if (!isGlideshowInitialized) {
+        initializeGlideshow();
+      }
+    }, 1000);
+  </script>
+  <!-- Announcement Popup (hidden by default) -->
+  <div id="announcement-popup" class="popup-overlay" role="dialog" aria-modal="true" hidden>
+    <div class="popup-content">
+      <h2 id="announcement-title"></h2>
+      <p id="announcement-message"></p>
+      <button id="close-announcement-btn" class="btn">Got it!</button>
+    </div>
+  </div>
 
-function updateHamburgerColor() {
-  const header = document.querySelector('header');
-  const hamburgerSpans = document.querySelectorAll('#hamburger span');
+  <script>
+    // Your announcements data — empty by default, add announcements here manually or via announcement page later
+    const announcements = [
+      // Example:
+      // { id: '2025-07-04-01', title: 'New French Worksheet!', message: 'Check out the latest worksheet for French 2.' }
+    ];
 
-  if (header && hamburgerSpans.length > 0) {
-    const shouldBeBlack = window.scrollY > header.offsetHeight - 100;
-    const color = shouldBeBlack ? 'black' : 'white';
+    // Wait for both DOMContentLoaded and loading screen to finish before showing popup
+    document.addEventListener('DOMContentLoaded', () => {
+      // Function to show announcement popup if needed
+      function tryShowAnnouncement() {
+        const popup = document.getElementById('announcement-popup');
+        const closeBtn = document.getElementById('close-announcement-btn');
+        const titleElem = document.getElementById('announcement-title');
+        const messageElem = document.getElementById('announcement-message');
 
-    hamburgerSpans.forEach(span => {
-      span.style.backgroundColor = color;
+        if (!popup || !closeBtn || !titleElem || !messageElem) return;
+        if (announcements.length === 0) return; // no announcements, no popup
+
+        const latest = announcements[announcements.length - 1];
+        const dismissedId = localStorage.getItem('dismissedAnnouncementId');
+
+        if (dismissedId === latest.id) return; // already dismissed
+
+        // Fill popup content
+        titleElem.textContent = latest.title;
+        messageElem.textContent = latest.message;
+
+        // Show popup
+        popup.hidden = false;
+
+        closeBtn.addEventListener('click', () => {
+          popup.hidden = true;
+          localStorage.setItem('dismissedAnnouncementId', latest.id);
+        });
+      }
+
+      // Check if you have a loading screen, wait for it to hide first before showing popup
+      // Assuming your loading screen has id="loading-screen" and gets hidden by adding hidden attribute
+      const loadingScreen = document.getElementById('loading-screen');
+
+      if (!loadingScreen || loadingScreen.hasAttribute('hidden')) {
+        // No loading screen or already hidden, show popup immediately
+        tryShowAnnouncement();
+      } else {
+        // Wait for loading screen to disappear (hidden attribute removed)
+        const observer = new MutationObserver(() => {
+          if (loadingScreen.hasAttribute('hidden')) {
+            observer.disconnect();
+            tryShowAnnouncement();
+          }
+        });
+        observer.observe(loadingScreen, { attributes: true, attributeFilter: ['hidden'] });
+      }
     });
-  }
-}
+  </script>
 
-// Load user settings from localStorage
-function loadUserSettings() {
-  const body = document.body;
-  const html = document.documentElement;
+  <style>
+    /* Announcement popup styling */
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1200; /* Higher than your loading screen */
+    }
 
-  if (localStorage.getItem('darkMode') === 'true') {
-    html.classList.add('dark-mode');
-    body.classList.add('dark-mode');
-  }
+    .popup-overlay[hidden] {
+      display: none !important;
+    }
 
-  if (localStorage.getItem('highContrast') === 'true') {
-    html.classList.add('high-contrast');
-    body.classList.add('high-contrast');
-  }
+    .popup-content {
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    }
 
-  if (localStorage.getItem('dyslexiaMode') === 'true') {
-    body.classList.add('dyslexia-mode');
-    html.classList.add('dyslexia-mode');
-  }
+    .popup-content h2 {
+      font-family: 'Pacifico', cursive;
+      margin-bottom: 1rem;
+      color: #007a7a;
+    }
 
+    .popup-content p {
+      font-family: 'Roboto Condensed', sans-serif;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
 
-  // Trigger initial updates after settings load
-  setTimeout(function() {
-    updateGlideshow();
-    updateQuoteVisibility();
-    updateHamburgerColor();
-  }, 100);
-}
+    .btn {
+      background-color: #007a7a;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-// Ensure glideshow works even if initialization is delayed
-setTimeout(function() {
-  if (!isGlideshowInitialized) {
-    initializeGlideshow();
-  }
-}, 500);
-
-setTimeout(function() {
-  if (!isGlideshowInitialized) {
-    initializeGlideshow();
-  }
-}, 1000);
-</script>
+    .btn:hover {
+      background-color: #005f5f;
+    }
+  </style>
 
 </body>
+
 </html>
