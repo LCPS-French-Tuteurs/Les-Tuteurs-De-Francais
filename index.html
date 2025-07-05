@@ -663,6 +663,11 @@
       color: white;
       font-family: 'Roboto Condensed', sans-serif;
     }
+    body.locked {
+      overflow: hidden;
+      height: 100vh;
+    }
+
   </style>
 </head>
 
@@ -1016,72 +1021,106 @@
         initializeGlideshow();
       }
     }, 1000);
+
+
   </script>
-  <!-- Announcement Popup (hidden by default) -->
-  <div id="announcement-popup" class="popup-overlay" role="dialog" aria-modal="true" hidden>
-    <div class="popup-content">
-      <h2 id="announcement-title"></h2>
-      <p id="announcement-message"></p>
-      <button id="close-announcement-btn" class="btn">Got it!</button>
+  <script>
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxlQpr8aMKbhzj3eN3CG2caCTGsaJKWGAwGrj_0Z4BcUr9Wngjw1Ahq95RX9KHWWKZT/exec';
+
+    function sanitize(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function showPopupFromSheet() {
+      fetch(SHEET_URL)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || data.length === 0) return;
+
+          // Sort newest first
+          data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          const read = JSON.parse(localStorage.getItem("readAnnouncements") || "[]");
+
+          const unread = data.filter(a => !read.includes(a.title));
+
+          if (unread.length === 0) return;
+
+          const latest = unread[0];
+
+          document.getElementById("popup-title").textContent = sanitize(latest.title);
+          document.getElementById("popup-content").textContent = sanitize(latest.body);
+          document.getElementById("announcement-popup").style.display = "block";
+          document.body.classList.add('locked');
+
+          document.getElementById("dismiss-popup").onclick = () => {
+            if (document.getElementById("dont-show-again").checked) {
+              read.push(latest.title);
+              localStorage.setItem("readAnnouncements", JSON.stringify(read));
+            }
+            document.getElementById("announcement-popup").style.display = "none";
+            document.body.classList.remove('locked');
+          };
+        })
+        .catch(err => {
+          console.error("Error fetching popup announcement:", err);
+        });
+    }
+
+    // Run popup after loading screen fades
+    window.addEventListener("load", () => {
+      const loader = document.getElementById('loading-screen');
+
+      if (!loader) {
+        showPopupFromSheet();
+        return;
+      }
+
+      const observer = new MutationObserver(() => {
+        if (loader.classList.contains('fade-out')) {
+          observer.disconnect();
+          setTimeout(showPopupFromSheet, 700);
+        }
+      });
+
+      observer.observe(loader, { attributes: true, attributeFilter: ['class'] });
+
+      // fallback
+      setTimeout(showPopupFromSheet, 5000);
+    });
+  </script>
+
+
+  <!-- ANNOUNCEMENT POPUP -->
+  <div id="announcement-popup" style="display: none;" role="dialog" aria-modal="true">
+    <div style="
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      color: black;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      max-width: 90vw;
+      width: 400px;
+      z-index: 99999;
+      font-family: 'Roboto Condensed', sans-serif;
+    ">
+      <h3 id="popup-title" style="margin-top: 0; font-size: 1.5rem; color: #007a7a;"></h3>
+      <p id="popup-content" style="margin-bottom: 1rem;"></p>
+      <label style="display: flex; align-items: center; font-size: 0.9rem; margin-bottom: 1rem;">
+        <input type="checkbox" id="dont-show-again" style="margin-right: 0.5rem;">
+        Don’t show this again
+      </label>
+      <button id="dismiss-popup" class="btn" style="width: 100%;">Got it!</button>
     </div>
   </div>
 
-  <script>
-    // Your announcements data — empty by default, add announcements here manually or via announcement page later
-    const announcements = [
-      // Example:
-      // { id: '2025-07-04-01', title: 'New French Worksheet!', message: 'Check out the latest worksheet for French 2.' }
-    ];
 
-    // Wait for both DOMContentLoaded and loading screen to finish before showing popup
-    document.addEventListener('DOMContentLoaded', () => {
-      // Function to show announcement popup if needed
-      function tryShowAnnouncement() {
-        const popup = document.getElementById('announcement-popup');
-        const closeBtn = document.getElementById('close-announcement-btn');
-        const titleElem = document.getElementById('announcement-title');
-        const messageElem = document.getElementById('announcement-message');
 
-        if (!popup || !closeBtn || !titleElem || !messageElem) return;
-        if (announcements.length === 0) return; // no announcements, no popup
-
-        const latest = announcements[announcements.length - 1];
-        const dismissedId = localStorage.getItem('dismissedAnnouncementId');
-
-        if (dismissedId === latest.id) return; // already dismissed
-
-        // Fill popup content
-        titleElem.textContent = latest.title;
-        messageElem.textContent = latest.message;
-
-        // Show popup
-        popup.hidden = false;
-
-        closeBtn.addEventListener('click', () => {
-          popup.hidden = true;
-          localStorage.setItem('dismissedAnnouncementId', latest.id);
-        });
-      }
-
-      // Check if you have a loading screen, wait for it to hide first before showing popup
-      // Assuming your loading screen has id="loading-screen" and gets hidden by adding hidden attribute
-      const loadingScreen = document.getElementById('loading-screen');
-
-      if (!loadingScreen || loadingScreen.hasAttribute('hidden')) {
-        // No loading screen or already hidden, show popup immediately
-        tryShowAnnouncement();
-      } else {
-        // Wait for loading screen to disappear (hidden attribute removed)
-        const observer = new MutationObserver(() => {
-          if (loadingScreen.hasAttribute('hidden')) {
-            observer.disconnect();
-            tryShowAnnouncement();
-          }
-        });
-        observer.observe(loadingScreen, { attributes: true, attributeFilter: ['hidden'] });
-      }
-    });
-  </script>
 
 </body>
 
