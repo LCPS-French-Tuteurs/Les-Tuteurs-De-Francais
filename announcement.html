@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Announcements</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2248%22>📃</text></svg>" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Condensed:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf" rel="stylesheet" as="font" type="font/otf" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf') format('opentype');
+    }
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease;
+    }
+
+    #loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .french-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    #baguette {
+      width: 80px;
+      height: auto;
+      animation: baguetteSpin 2s linear infinite;
+      display: block;
+      max-width: 100px;
+    }
+
+    @keyframes baguetteSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    #french-tip {
+      font-size: 1.1rem;
+      color: white;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+  </style>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto Condensed', sans-serif;
+      background-color: white;
+      color: black;
+      transition: background 0.3s, color 0.3s, text-shadow 0.3s ease;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.5rem;
+      color: #007a7a;
+    }
+
+    .announcement-list {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    .announcement {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .announcement h3 {
+      margin: 0;
+      color: #007a7a;
+    }
+
+    .announcement p {
+      margin-top: 0.5rem;
+    }
+
+    /* Admin Button */
+    #admin-button {
+      display: block;
+      width: fit-content;
+      margin: 2rem auto 0;
+      padding: 0.5rem 1rem;
+      background-color: #007a7a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #admin-button:hover {
+      background-color: #005f5f;
+    }
+
+    /* Hamburger */
+    #hamburger {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 30px;
+      height: 24px;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    #hamburger span {
+      height: 4px;
+      background: #007a7a;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    #hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    #hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    #hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    #side-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #222;
+      color: white;
+      padding-top: 60px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1050;
+    }
+
+    #side-nav.open {
+      transform: translateX(0);
+    }
+
+    #side-nav a {
+      display: block;
+      padding: 1rem 2rem;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-bottom: 1px solid #444;
+    }
+
+    #side-nav a:hover {
+      background-color: #005f5f;
+    }
+
+    .dark-mode { background-color: #1e1e1e; color: #e0e0e0; }
+    .dark-mode .announcement-list { background-color: #2a2a2a; }
+    .high-contrast { background-color: #000 !important; color: #39FF14 !important; text-shadow: 0 0 8px #00FF00; }
+    .high-contrast .announcement-list { background: #000 !important; border: 2px solid #39FF14; }
+    .high-contrast #hamburger span { background-color: #00FF00 !important; box-shadow: 0 0 6px #00FF00; }
+    .high-contrast #side-nav { background-color: #111 !important; box-shadow: 0 0 10px #00FF00; }
+    .high-contrast #side-nav a { color: white !important; text-shadow: 0 0 4px #39FF14, 0 0 8px #39FF14; }
+    .dyslexia-mode { font-family: 'OpenDyslexic', Arial, sans-serif !important; letter-spacing: 0.05em; line-height: 1.6; }
+    .no-animations * { transition: none !important; }
+  </style>
+</head>
+<body>
+  <div id="hamburger" aria-label="Menu" role="button" tabindex="0">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <nav id="side-nav">
+    <a href="index.html">Home</a>
+    <a href="settings.html">Settings</a>
+    <a href="sources.html">Sources</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="announcement.html">Announcements</a>
+  </nav>
+  <div id="loading-screen">
+    <div class="french-loader">
+      <img id="baguette"
+        src="https://images.vexels.com/media/users/3/156533/isolated/preview/5ec787f2bfceab659b30cea66ecff88d-baguette-bread-cartoon-icon.png"
+        alt="Baguette spinning" />
+
+
+      <div id="french-tip"></div>
+    </div>
+
+  </div>
+
+
+  <header>
+    <h1>Announcements</h1>
+  </header>
+
+  <div class="announcement-list" id="announcement-list"></div>
+
+  <button id="admin-button" onclick="location.href='admin-announcements.html'">+ Admin</button>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('hamburger').classList.toggle('open');
+      document.getElementById('side-nav').classList.toggle('open');
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      if (localStorage.getItem('darkMode') === 'true') body.classList.add('dark-mode');
+      if (localStorage.getItem('highContrast') === 'true') body.classList.add('high-contrast');
+      if (localStorage.getItem('disableAnimations') === 'true') body.classList.add('no-animations');
+      if (localStorage.getItem('dyslexiaMode') === 'true') body.classList.add('dyslexia-mode');
+    });
+
+
+
+  </script>
+  <script>
+    // Fade out the loader once everything is loaded
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loading-screen');
+      setTimeout(() => {
+        loader.classList.add('fade-out');
+      }, 3000); // Optional delay for aesthetic
+    });
+    const tips = [
+      "Astuce: Adjectives always have to match the gender and plurality of the noun they describe.",
+      "Astuce: En français, on ne prononce jamais les lettres finales!",
+      "Astuce: 'Y' replaces a thing or a place that used 'à', 'en', 'chez'.",
+      "Astuce: 'En' replaces 'de' + something and could also signify a quantity.",
+      "Astuce: 'Ne...pas' surrounds a verb to negate it.",
+      "Astuce: 'Depuis' = since / for (time); 'Il y a' = ago.",
+      "Astuce: Learn 5 nouveaux mots chaque jour!",
+      "Astuce: Les accents change the meaning of words - café ≠ cafè!"
+    ];
+    let currentTip = 0;
+    const tipElement = document.getElementById('french-tip');
+
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+    if (tipElement) tipElement.textContent = randomTip;
+    // Add loading screen on link clicks
+
+
+  </script>
+  <script>
+    function sanitize(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function loadAnnouncements() {
+      const list = document.getElementById('announcement-list');
+      list.innerHTML = '<p>Loading announcements...</p>';
+
+      // 👇 Replace this with your actual Apps Script web app URL!
+      fetch('https://script.google.com/macros/s/AKfycbxlQpr8aMKbhzj3eN3CG2caCTGsaJKWGAwGrj_0Z4BcUr9Wngjw1Ahq95RX9KHWWKZT/exec')
+        .then(response => response.json())
+        .then(data => {
+          if (!data || data.length === 0) {
+            list.innerHTML = '<p>No announcements yet.</p>';
+            return;
+          }
+
+          list.innerHTML = ''; // Clear loading message
+
+          // Sort newest first
+          data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          data.forEach(a => {
+            const dateStr = a.date ? new Date(a.date).toLocaleDateString() : '';
+            const item = document.createElement('div');
+            item.className = 'announcement';
+            item.innerHTML = `
+              <h3>${sanitize(a.title)} ${dateStr ? `<small style="font-weight:normal; color:#555; margin-left:10px;">(${dateStr})</small>` : ''}</h3>
+              <p>${sanitize(a.body)}</p>
+            `;
+            list.appendChild(item);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching announcements:', error);
+          list.innerHTML = '<p>Error loading announcements. Please try again later.</p>';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAnnouncements();
+    });
+  </script>
+
+</body>
+</html>
