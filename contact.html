@@ -396,7 +396,7 @@
       <input required type="email" id="email" name="email" />
     </div>
     <button type="submit">Submit</button>
-    <div class="note">Please be logged into your school email to submit the form. THE FORM IS NOT CURRENTLY ACTIVE! IT WILL NOT WORK!</div>
+    <div class="note">You may use your school or personal email!</div>
     <div class="success-msg" id="successMsg" style="display: none;">✅ Submission successful!</div>
   </form>
 </section>
@@ -434,27 +434,25 @@
   // Form submission
   document.getElementById('mailingListForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const formData = {
-      name: document.getElementById('name').value,
-      level: document.getElementById('level').value,
-      email: document.getElementById('email').value
-    };
 
-    fetch("https://script.google.com/a/macros/lcps.org/s/AKfycbyKcjFz76uBy7PWxXyBjdXPIUZ7vCeTicxCXqT0Ya2zwuIy8fA471bGWmQKcb-2Edvu0Q/exec", {
+    const form = e.target;
+    const data = new FormData(form);
+
+    fetch("https://script.google.com/macros/s/AKfycbzmlenLxKZtyarJwKDroXiEotoztbsINMPjR2wrnUhJpKC3--StfNcMMz7yz0zVrrZF/exec", {
       method: "POST",
-      body: JSON.stringify(formData),
-      headers: { "Content-Type": "application/json" }
+      body: data
     })
-    .then(res => {
-      if (res.ok) {
-        document.getElementById('successMsg').style.display = 'block';
-        this.reset();
-      } else {
-        alert("Something went wrong. Try again or contact us directly.");
-      }
+    .then(response => response.text())
+    .then(responseText => {
+      document.getElementById('successMsg').style.display = 'block';
+      form.reset();
     })
-    .catch(() => alert("Error sending form."));
+    .catch(err => {
+      console.error(err);
+      alert("Error submitting the form. Try again or email us directly.");
+    });
   });
+
 </script>
   <script>
     // Fade out the loader once everything is loaded
