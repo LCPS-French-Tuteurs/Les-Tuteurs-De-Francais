@@ -191,6 +191,12 @@
       font-weight: bold;
       border-bottom: 1px solid #444;
     }
+    .announcement-date {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.2rem;
+    }
+
 
     #side-nav a:hover {
       background-color: #005f5f;
@@ -298,7 +304,7 @@
       list.innerHTML = '<p>Loading announcements...</p>';
 
       // 👇 Replace this with your actual Apps Script web app URL!
-      fetch('https://script.google.com/macros/s/AKfycbxlQpr8aMKbhzj3eN3CG2caCTGsaJKWGAwGrj_0Z4BcUr9Wngjw1Ahq95RX9KHWWKZT/exec')
+      fetch('https://script.google.com/macros/s/AKfycbyqpotqaDUtCinxdbCdAz0KO60Asdht1G8cuRhCGPCHxDtcE6JYBQ4kPzTQif23chs/exec')
         .then(response => response.json())
         .then(data => {
           if (!data || data.length === 0) {
@@ -309,14 +315,23 @@
           list.innerHTML = ''; // Clear loading message
 
           // Sort newest first
-          data.sort((a, b) => new Date(b.date) - new Date(a.date));
+          data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
           data.forEach(a => {
-            const dateStr = a.date ? new Date(a.date).toLocaleDateString() : '';
+            const dateStr = a.timestamp ? new Date(a.timestamp).toLocaleString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: '2-digit',
+            }) : '';
+
             const item = document.createElement('div');
             item.className = 'announcement';
             item.innerHTML = `
-              <h3>${sanitize(a.title)} ${dateStr ? `<small style="font-weight:normal; color:#555; margin-left:10px;">(${dateStr})</small>` : ''}</h3>
+<h3>${sanitize(a.title)}</h3>
+<div class="announcement-date">${dateStr}</div>
+
               <p>${sanitize(a.body)}</p>
             `;
             list.appendChild(item);
@@ -335,3 +350,4 @@
 
 </body>
 </html>
+
