@@ -202,28 +202,95 @@
     </div>
     <button type="submit">Sign Up</button>
   </form>
+
+  <div id="dashboard" style="display:none; margin-top: 2rem;">
+    <h2>Available Sessions</h2>
+    <div id="sessions-list"></div>
+  </div>
+
   <div id="message" style="text-align:center; margin-top:1rem;"></div>
 
   <script>
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBzZ9NBE0-CUqVOCoHoxVpDtAbdPaRTaRE",
+      authDomain: "french-tutor-signup.firebaseapp.com",
+      projectId: "french-tutor-signup",
+      storageBucket: "french-tutor-signup.appspot.com",
+      messagingSenderId: "722715351286",
+      appId: "1:722715351286:web:cbe3fbaaa5f8af588174d7"
+    };
 
-  // Your Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBzZ9NBE0-CUqVOCoHoxVpDtAbdPaRTaRE",
-    authDomain: "french-tutor-signup.firebaseapp.com",
-    projectId: "french-tutor-signup",
-    storageBucket: "french-tutor-signup.appspot.com",  // ← fix the .app typo here!
-    messagingSenderId: "722715351286",
-    appId: "1:722715351286:web:cbe3fbaaa5f8af588174d7"
-  };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+    // Demo sessions data - you can later replace this with Firestore fetch
+    const demoSessions = [
+      { id: "sess1", date: "2025-08-01 16:00", level: "French 1", spotsLeft: 3 },
+      { id: "sess2", date: "2025-08-02 17:00", level: "French 2", spotsLeft: 2 },
+      { id: "sess3", date: "2025-08-03 18:00", level: "French 3", spotsLeft: 5 }
+    ];
 
+    const signupForm = document.getElementById('signup-form');
+    const messageDiv = document.getElementById('message');
+    const dashboard = document.getElementById('dashboard');
+    const sessionsList = document.getElementById('sessions-list');
 
+    // Render sessions filtered by level with sign up buttons
+    function renderSessions(userLevel) {
+      sessionsList.innerHTML = '';
+      const filtered = demoSessions.filter(s => s.level === userLevel);
+      if (filtered.length === 0) {
+        sessionsList.innerHTML = '<p>No sessions available for your level yet.</p>';
+        return;
+      }
+      filtered.forEach(session => {
+        const div = document.createElement('div');
+        div.style.marginBottom = '1rem';
+        div.innerHTML = `
+          <strong>Date:</strong> ${session.date}<br />
+          <strong>Level:</strong> ${session.level}<br />
+          <strong>Spots left:</strong> ${session.spotsLeft}<br />
+          <button ${session.spotsLeft === 0 ? 'disabled' : ''} data-id="${session.id}">
+            Sign Up
+          </button>
+        `;
+        sessionsList.appendChild(div);
+        const btn = div.querySelector('button');
+        btn.addEventListener('click', () => {
+          if (confirm(`Confirm sign-up for session on ${session.date}?`)) {
+            bookSession(session);
+          }
+        });
+      });
+    }
 
-    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    // Book session by adding a booking document
+    async function bookSession(session) {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("You must be logged in to book a session.");
+        return;
+      }
+      try {
+        // Add booking to Firestore under "bookings" collection
+        await db.collection('bookings').add({
+          userId: user.uid,
+          sessionId: session.id,
+          sessionDate: session.date,
+          sessionLevel: session.level,
+          bookedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert("Successfully signed up for the session!");
+      } catch (error) {
+        alert("Error booking session: " + error.message);
+      }
+    }
+
+    // Signup form submit handler
+    signupForm.addEventListener('submit', async e => {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const level = document.getElementById('level').value;
@@ -231,21 +298,31 @@
       const password = document.getElementById('password').value;
 
       try {
+        // Create user account
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
+
+        // Save extra info in "students" collection
         await db.collection('students').doc(user.uid).set({
           name,
           level,
           email,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        document.getElementById('message').innerText = "Account created successfully!";
-        document.getElementById('signup-form').reset();
+
+        messageDiv.innerText = "Account created successfully!";
+        signupForm.reset();
+
+        // Show dashboard & sessions filtered by their level
+        dashboard.style.display = "block";
+        renderSessions(level);
+
       } catch (error) {
-        document.getElementById('message').innerText = "Error: " + error.message;
+        messageDiv.innerText = "Error: " + error.message;
       }
     });
 
+    // French tips for loading screen
     const tips = [
       "Astuce: Adjectives always have to match the gender and plurality of the noun they describe.",
       "Astuce: En français, on ne prononce jamais les lettres finales!",
@@ -260,14 +337,16 @@
     const randomTip = tips[Math.floor(Math.random() * tips.length)];
     if (tipElement) tipElement.textContent = randomTip;
 
+    // Loading screen fadeout
     window.addEventListener('load', () => {
       const loader = document.getElementById('loading-screen');
       setTimeout(() => {
         loader.classList.add('fade-out');
-        setTimeout(() => loader.style.display = 'none', 400); // Hide after fade
+        setTimeout(() => loader.style.display = 'none', 400);
       }, 2000);
     });
 
+    // Hamburger menu toggle
     const hamburger = document.getElementById('hamburger');
     const sideNav = document.getElementById('side-nav');
     hamburger.addEventListener('click', () => {
