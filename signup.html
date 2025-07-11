@@ -205,17 +205,23 @@
   <div id="message" style="text-align:center; margin-top:1rem;"></div>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+
+  // Your Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBzZ9NBE0-CUqVOCoHoxVpDtAbdPaRTaRE",
+    authDomain: "french-tutor-signup.firebaseapp.com",
+    projectId: "french-tutor-signup",
+    storageBucket: "french-tutor-signup.appspot.com",  // ← fix the .app typo here!
+    messagingSenderId: "722715351286",
+    appId: "1:722715351286:web:cbe3fbaaa5f8af588174d7"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+
 
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
