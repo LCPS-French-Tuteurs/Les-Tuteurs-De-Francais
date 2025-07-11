@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Condensed:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/webkit/OpenDyslexic-Regular.otf" rel="stylesheet" as="font" type="font/otf" crossorigin>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2248%22> 🔑 </text></svg>" />
+
+  <style>
+    body {
+      font-family: 'Roboto Condensed', sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      font-family: 'Pacifico', cursive;
+      color: #007a7a;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+    .setting {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1.5rem 0;
+      font-size: 1.2rem;
+    }
+    .setting input,
+    .setting select {
+      font-size: 1rem;
+      padding: 0.5rem;
+      width: 60%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+    button {
+      display: block;
+      margin: 3rem auto 0;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      background-color: #007a7a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005f5f;
+    }
+    #hamburger {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 30px;
+      height: 24px;
+      cursor: pointer;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    #hamburger span {
+      display: block;
+      height: 4px;
+      background: black;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    #hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    #hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    #hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+    #side-nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 250px;
+      height: 100vh;
+      background: #222;
+      padding-top: 60px;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.6);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      visibility: hidden;
+      z-index: 1050;
+    }
+    #side-nav.open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+    #side-nav a {
+      display: block;
+      padding: 1rem 2rem;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      font-family: 'Roboto Condensed', sans-serif;
+      border-bottom: 1px solid #444;
+      transition: background-color 0.2s ease;
+    }
+    #side-nav a:hover {
+      background-color: #005f5f;
+    }
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+    #loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .french-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+    }
+    #baguette {
+      width: 80px;
+      height: auto;
+      animation: baguetteSpin 2s linear infinite;
+      display: block;
+      max-width: 100px;
+    }
+    @keyframes baguetteSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #french-tip {
+      font-size: 1.1rem;
+      color: white;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+  </style>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div id="hamburger" aria-label="Menu" role="button" tabindex="0">
+    <span></span><span></span><span></span>
+  </div>
+  <nav id="side-nav" aria-label="Primary">
+    <a href="index.html">Home</a>
+    <a href="settings.html">Settings</a>
+    <a href="sources.html">Sources</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="announcement.html">Announcements</a>
+  </nav>
+  <div id="loading-screen">
+    <div class="french-loader">
+      <img id="baguette" src="https://images.vexels.com/media/users/3/156533/isolated/preview/5ec787f2bfceab659b30cea66ecff88d-baguette-bread-cartoon-icon.png" alt="Baguette spinning" />
+      <div id="french-tip"></div>
+    </div>
+  </div>
+
+  <h1>Sign Up</h1>
+  <form id="signup-form">
+    <div class="setting">
+      <span>Name</span>
+      <input type="text" id="name" placeholder="Your name" required />
+    </div>
+    <div class="setting">
+      <span>French Level</span>
+      <select id="level" required>
+        <option value="" disabled selected>Select level</option>
+        <option value="French 1">French 1</option>
+        <option value="French 2">French 2</option>
+        <option value="French 3">French 3</option>
+        <option value="French 4">French 4</option>
+      </select>
+    </div>
+    <div class="setting">
+      <span>Email</span>
+      <input type="email" id="email" placeholder="Email" required />
+    </div>
+    <div class="setting">
+      <span>Password</span>
+      <input type="password" id="password" placeholder="Password" required />
+    </div>
+    <button type="submit">Sign Up</button>
+  </form>
+  <div id="message" style="text-align:center; margin-top:1rem;"></div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const level = document.getElementById('level').value;
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        await db.collection('students').doc(user.uid).set({
+          name,
+          level,
+          email,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        document.getElementById('message').innerText = "Account created successfully!";
+        document.getElementById('signup-form').reset();
+      } catch (error) {
+        document.getElementById('message').innerText = "Error: " + error.message;
+      }
+    });
+
+    const tips = [
+      "Astuce: Adjectives always have to match the gender and plurality of the noun they describe.",
+      "Astuce: En français, on ne prononce jamais les lettres finales!",
+      "Astuce: 'Y' replaces a thing or a place that used 'à', 'en', 'chez'.",
+      "Astuce: 'En' replaces 'de' + something and could also signify a quantity.",
+      "Astuce: 'Ne...pas' surrounds a verb to negate it.",
+      "Astuce: 'Depuis' = since / for (time); 'Il y a' = ago.",
+      "Astuce: Learn 5 nouveaux mots chaque jour!",
+      "Astuce: Les accents change the meaning of words - café ≠ cafè!"
+    ];
+    const tipElement = document.getElementById('french-tip');
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+    if (tipElement) tipElement.textContent = randomTip;
+
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loading-screen');
+      setTimeout(() => {
+        loader.classList.add('fade-out');
+        setTimeout(() => loader.style.display = 'none', 400); // Hide after fade
+      }, 2000);
+    });
+
+    const hamburger = document.getElementById('hamburger');
+    const sideNav = document.getElementById('side-nav');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      sideNav.classList.toggle('open');
+      if (sideNav.classList.contains('open')) {
+        sideNav.style.visibility = 'visible';
+      } else {
+        setTimeout(() => {
+          sideNav.style.visibility = 'hidden';
+        }, 300);
+      }
+    });
+  </script>
+</body>
+</html>
